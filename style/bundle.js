@@ -101,7 +101,7 @@ eval("// shim for using process in browser\nvar process = module.exports = {};\n
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\n__webpack_require__(/*! ./styles/main-style.css */ \"./src/styles/main-style.css\");\n__webpack_require__(/*! ./styles/responsive-style.css */ \"./src/styles/responsive-style.css\");\nvar routerFactory = __webpack_require__(/*! ./router/routerFactory */ \"./src/router/routerFactory.js\");\n\nfunction start() {\n    var routesResolver = routerFactory.createRoutesResolver();\n    routesResolver.init();\n}\n\nstart();\n\n//# sourceURL=webpack:///./src/app.js?");
+eval("\n\n__webpack_require__(/*! ./styles/main-style.css */ \"./src/styles/main-style.css\");\n__webpack_require__(/*! ./styles/responsive-style.css */ \"./src/styles/responsive-style.css\");\nvar routerFactory = __webpack_require__(/*! ./Router/routerFactory */ \"./src/Router/routerFactory.js\");\n\nfunction start() {\n    var routesResolver = routerFactory.createRoutesResolver();\n    routesResolver.init();\n}\n\nstart();\n\n//# sourceURL=webpack:///./src/app.js?");
 
 /***/ }),
 
@@ -113,7 +113,7 @@ eval("\n\n__webpack_require__(/*! ./styles/main-style.css */ \"./src/styles/main
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nvar navigator = __webpack_require__(/*! ../utils/navigator */ \"./src/utils/navigator.js\");\nvar homeController = __webpack_require__(/*! ./homeController */ \"./src/controllers/homeController.js\");\nvar notFoundController = __webpack_require__(/*! ./notFoundController */ \"./src/controllers/notFoundController.js\");\n\nvar createHomeController = exports.createHomeController = function createHomeController() {\n  return homeController(navigator());\n};\nvar createNotFoundController = exports.createNotFoundController = function createNotFoundController() {\n  return notFoundController();\n};\n\n//# sourceURL=webpack:///./src/controllers/controllerFactory.js?");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nvar navigator = __webpack_require__(/*! ../Utils/navigator */ \"./src/Utils/navigator.js\");\nvar homeController = __webpack_require__(/*! ./homeController */ \"./src/controllers/homeController.js\");\nvar notFoundController = __webpack_require__(/*! ./notFoundController */ \"./src/controllers/notFoundController.js\");\n\nvar createHomeController = exports.createHomeController = function createHomeController() {\n  return homeController(navigator());\n};\nvar createNotFoundController = exports.createNotFoundController = function createNotFoundController() {\n  return notFoundController();\n};\n\n//# sourceURL=webpack:///./src/controllers/controllerFactory.js?");
 
 /***/ }),
 
@@ -143,37 +143,37 @@ eval("\n\nfunction notFoundController(navigator) {\n\n    function execute() {\n
 
 /***/ "./src/router/router.js":
 /*!******************************!*\
-  !*** ./src/router/router.js ***!
+  !*** ./src/Router/Router.js ***!
   \******************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nvar page = __webpack_require__(/*! page */ \"./node_modules/page/page.js\");\n\nfunction router() {\n\n    function registerRoute(route, resolver) {\n        page(route, resolver);\n    }\n\n    function finish() {\n        page();\n    }\n\n    return {\n        registerRoute: registerRoute,\n        finish: finish\n    };\n}\n\nmodule.exports = router;\n\n//# sourceURL=webpack:///./src/router/router.js?");
+eval("\n\nvar page = __webpack_require__(/*! page */ \"./node_modules/page/page.js\");\n\nfunction Router() {\n\n    function registerRoute(route, resolver) {\n        page(route, resolver);\n    }\n\n    function finish() {\n        page();\n    }\n\n    return {\n        registerRoute: registerRoute,\n        finish: finish\n    };\n}\n\nmodule.exports = Router;\n\n//# sourceURL=webpack:///./src/Router/Router.js?");
 
 /***/ }),
 
 /***/ "./src/router/routerFactory.js":
 /*!*************************************!*\
-  !*** ./src/router/routerFactory.js ***!
+  !*** ./src/Router/routerFactory.js ***!
   \*************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nvar router = __webpack_require__(/*! ./router */ \"./src/router/router.js\");\nvar routesResolver = __webpack_require__(/*! ./routesResolver */ \"./src/router/routesResolver.js\");\n\nvar createRoutesResolver = exports.createRoutesResolver = function createRoutesResolver() {\n  return routesResolver(router());\n};\n\n//# sourceURL=webpack:///./src/router/routerFactory.js?");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nvar Router = __webpack_require__(/*! ./Router */ \"./src/Router/Router.js\");\nvar routesResolver = __webpack_require__(/*! ./routesResolver */ \"./src/Router/routesResolver.js\");\n\nvar createRoutesResolver = exports.createRoutesResolver = function createRoutesResolver() {\n  return routesResolver(Router());\n};\n\n//# sourceURL=webpack:///./src/Router/routerFactory.js?");
 
 /***/ }),
 
 /***/ "./src/router/routesResolver.js":
 /*!**************************************!*\
-  !*** ./src/router/routesResolver.js ***!
+  !*** ./src/Router/routesResolver.js ***!
   \**************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nvar controllerFactory = __webpack_require__(/*! ../controllers/controllerFactory */ \"./src/controllers/controllerFactory.js\");\n\nfunction routesResolver(router) {\n\n    var homeController = controllerFactory.createHomeController();\n    var notFoundController = controllerFactory.createNotFoundController();\n\n    function init() {\n        router.registerRoute(\"/\", homeController.execute());\n        router.registerRoute(\"*\", notFoundController.execute());\n        router.finish();\n    }\n\n    return {\n        init: init\n    };\n}\n\nmodule.exports = routesResolver;\n\n//# sourceURL=webpack:///./src/router/routesResolver.js?");
+eval("\n\nvar controllerFactory = __webpack_require__(/*! ../controllers/controllerFactory */ \"./src/controllers/controllerFactory.js\");\n\nfunction routesResolver(Router) {\n\n    var homeController = controllerFactory.createHomeController();\n    var notFoundController = controllerFactory.createNotFoundController();\n\n    function init() {\n        Router.registerRoute(\"/\", homeController.execute());\n        Router.registerRoute(\"*\", notFoundController.execute());\n        Router.finish();\n    }\n\n    return {\n        init: init\n    };\n}\n\nmodule.exports = routesResolver;\n\n//# sourceURL=webpack:///./src/Router/routesResolver.js?");
 
 /***/ }),
 
@@ -201,13 +201,13 @@ eval("// removed by extract-text-webpack-plugin\n\n//# sourceURL=webpack:///./sr
 
 /***/ "./src/utils/navigator.js":
 /*!********************************!*\
-  !*** ./src/utils/navigator.js ***!
+  !*** ./src/Utils/navigator.js ***!
   \********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nfunction navigator() {\n\n    function render(content) {\n        document.getElementById('app').innerHTML = content;\n    }\n\n    return {\n        render: render\n    };\n}\n\nmodule.exports = navigator;\n\n//# sourceURL=webpack:///./src/utils/navigator.js?");
+eval("\n\nfunction navigator() {\n\n    function render(content) {\n        document.getElementById('app').innerHTML = content;\n    }\n\n    return {\n        render: render\n    };\n}\n\nmodule.exports = navigator;\n\n//# sourceURL=webpack:///./src/Utils/navigator.js?");
 
 /***/ })
 
