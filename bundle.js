@@ -259,6 +259,17 @@ eval("// removed by extract-text-webpack-plugin\n\n//# sourceURL=webpack:///./sr
 
 /***/ }),
 
+/***/ "./src/Content/styles/normalize.css":
+/*!******************************************!*\
+  !*** ./src/Content/styles/normalize.css ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("// removed by extract-text-webpack-plugin\n\n//# sourceURL=webpack:///./src/Content/styles/normalize.css?");
+
+/***/ }),
+
 /***/ "./src/Content/styles/responsive-style.css":
 /*!*************************************************!*\
   !*** ./src/Content/styles/responsive-style.css ***!
@@ -282,27 +293,15 @@ eval("\n\nfunction homeController(view, articles) {\n\n    function execute() {\
 
 /***/ }),
 
-/***/ "./src/Home/Views/articlesList.jsx":
-/*!*****************************************!*\
-  !*** ./src/Home/Views/articlesList.jsx ***!
-  \*****************************************/
+/***/ "./src/Home/Views/homeView.jsx":
+/*!*************************************!*\
+  !*** ./src/Home/Views/homeView.jsx ***!
+  \*************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nvar _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError(\"this hasn't been initialised - super() hasn't been called\"); } return call && (typeof call === \"object\" || typeof call === \"function\") ? call : self; }\n\nfunction _inherits(subClass, superClass) { if (typeof superClass !== \"function\" && superClass !== null) { throw new TypeError(\"Super expression must either be null or a function, not \" + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }\n\nvar React = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n\nvar Article = function (_React$Component) {\n    _inherits(Article, _React$Component);\n\n    function Article() {\n        _classCallCheck(this, Article);\n\n        return _possibleConstructorReturn(this, (Article.__proto__ || Object.getPrototypeOf(Article)).apply(this, arguments));\n    }\n\n    _createClass(Article, [{\n        key: \"render\",\n        value: function render() {\n            return React.createElement(\n                \"article\",\n                null,\n                React.createElement(\n                    \"h2\",\n                    { className: \"article-title\" },\n                    this.props.article.name\n                ),\n                React.createElement(\n                    \"h3\",\n                    { className: \"article-description\" },\n                    this.props.article.description\n                ),\n                React.createElement(\n                    \"h4\",\n                    { className: \"article-info\" },\n                    \"Publicado por \",\n                    this.props.article.author,\n                    \" el dia \",\n                    this.props.article.date\n                )\n            );\n        }\n    }]);\n\n    return Article;\n}(React.Component);\n\nvar ArticlesList = function (_React$Component2) {\n    _inherits(ArticlesList, _React$Component2);\n\n    function ArticlesList() {\n        _classCallCheck(this, ArticlesList);\n\n        return _possibleConstructorReturn(this, (ArticlesList.__proto__ || Object.getPrototypeOf(ArticlesList)).apply(this, arguments));\n    }\n\n    _createClass(ArticlesList, [{\n        key: \"render\",\n        value: function render() {\n            return this.props.articles.map(function (article, key) {\n                return React.createElement(Article, { key: key, article: article });\n            });\n        }\n    }]);\n\n    return ArticlesList;\n}(React.Component);\n\nfunction articleList(navigator) {\n\n    function render(articles) {\n        navigator.reactRender(React.createElement(ArticlesList, { articles: articles }));\n    }\n\n    return {\n        render: render\n    };\n}\n\nmodule.exports = articleList;\n\n//# sourceURL=webpack:///./src/Home/Views/articlesList.jsx?");
-
-/***/ }),
-
-/***/ "./src/Home/Views/homeView.js":
-/*!************************************!*\
-  !*** ./src/Home/Views/homeView.js ***!
-  \************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\n\nfunction homeView(articlesListView) {\n\n    function render(articles) {\n        articlesListView.render(articles);\n    }\n\n    return {\n        render: render\n    };\n}\n\nmodule.exports = homeView;\n\n//# sourceURL=webpack:///./src/Home/Views/homeView.js?");
+eval("\n\nvar _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError(\"this hasn't been initialised - super() hasn't been called\"); } return call && (typeof call === \"object\" || typeof call === \"function\") ? call : self; }\n\nfunction _inherits(subClass, superClass) { if (typeof superClass !== \"function\" && superClass !== null) { throw new TypeError(\"Super expression must either be null or a function, not \" + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }\n\nvar React = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n\nvar Article = function (_React$Component) {\n    _inherits(Article, _React$Component);\n\n    function Article() {\n        _classCallCheck(this, Article);\n\n        return _possibleConstructorReturn(this, (Article.__proto__ || Object.getPrototypeOf(Article)).apply(this, arguments));\n    }\n\n    _createClass(Article, [{\n        key: \"render\",\n        value: function render() {\n            return React.createElement(\n                \"article\",\n                null,\n                React.createElement(\n                    \"h2\",\n                    null,\n                    this.props.article.name\n                ),\n                React.createElement(\n                    \"p\",\n                    null,\n                    this.props.article.description\n                ),\n                React.createElement(\n                    \"p\",\n                    null,\n                    \"Publicado por \",\n                    this.props.article.author,\n                    \" el dia \",\n                    this.props.article.date\n                )\n            );\n        }\n    }]);\n\n    return Article;\n}(React.Component);\n\nvar HomeView = function (_React$Component2) {\n    _inherits(HomeView, _React$Component2);\n\n    function HomeView() {\n        _classCallCheck(this, HomeView);\n\n        return _possibleConstructorReturn(this, (HomeView.__proto__ || Object.getPrototypeOf(HomeView)).apply(this, arguments));\n    }\n\n    _createClass(HomeView, [{\n        key: \"render\",\n        value: function render() {\n            return React.createElement(\n                \"div\",\n                { className: \"articles-container\" },\n                this.props.articles.map(function (article, key) {\n                    return React.createElement(Article, { key: key, article: article });\n                })\n            );\n        }\n    }]);\n\n    return HomeView;\n}(React.Component);\n\nfunction homeView(navigator) {\n\n    function render(articles) {\n        navigator.reactRender(React.createElement(HomeView, { articles: articles }));\n    }\n\n    return {\n        render: render\n    };\n}\n\nmodule.exports = homeView;\n\n//# sourceURL=webpack:///./src/Home/Views/homeView.jsx?");
 
 /***/ }),
 
@@ -314,7 +313,7 @@ eval("\n\nfunction homeView(articlesListView) {\n\n    function render(articles)
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});\nvar navigator = __webpack_require__(/*! ../Utils/navigator */ \"./src/Utils/navigator.js\");\nvar homeController = __webpack_require__(/*! ./../Home/Controllers/homeController */ \"./src/Home/Controllers/homeController.js\");\nvar homeView = __webpack_require__(/*! ./../Home/Views/homeView */ \"./src/Home/Views/homeView.js\");\nvar articlesList = __webpack_require__(/*! ../Articles/articles */ \"./src/Articles/articles.js\");\nvar articleList = __webpack_require__(/*! ./../Home/Views/articlesList.jsx */ \"./src/Home/Views/articlesList.jsx\");\n\nvar createHomeController = exports.createHomeController = function createHomeController() {\n    var view = homeView(articleList(navigator()));\n    return homeController(view, articlesList.articles);\n};\n\n//# sourceURL=webpack:///./src/Home/factory.js?");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});\nvar navigator = __webpack_require__(/*! ../Utils/navigator */ \"./src/Utils/navigator.js\");\nvar homeController = __webpack_require__(/*! ./../Home/Controllers/homeController */ \"./src/Home/Controllers/homeController.js\");\nvar articlesList = __webpack_require__(/*! ../Articles/articles */ \"./src/Articles/articles.js\");\nvar homeView = __webpack_require__(/*! ./Views/homeView.jsx */ \"./src/Home/Views/homeView.jsx\");\n\nvar createHomeController = exports.createHomeController = function createHomeController() {\n    var view = homeView(navigator());\n    return homeController(view, articlesList.articles);\n};\n\n//# sourceURL=webpack:///./src/Home/factory.js?");
 
 /***/ }),
 
@@ -410,7 +409,7 @@ eval("\n\nvar ReactDom = __webpack_require__(/*! react-dom */ \"./node_modules/r
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\n__webpack_require__(/*! ./Content/styles/main-style.css */ \"./src/Content/styles/main-style.css\");\n__webpack_require__(/*! ./Content/styles/responsive-style.css */ \"./src/Content/styles/responsive-style.css\");\n__webpack_require__(/*! ./Content/styles/articles.css */ \"./src/Content/styles/articles.css\");\nvar routerFactory = __webpack_require__(/*! ./Router/routerFactory */ \"./src/Router/routerFactory.js\");\n\nfunction start() {\n    var routesResolver = routerFactory.createRoutesResolver();\n    routesResolver.init();\n}\n\nstart();\n\n//# sourceURL=webpack:///./src/app.js?");
+eval("\n\n__webpack_require__(/*! ./Content/styles/main-style.css */ \"./src/Content/styles/main-style.css\");\n__webpack_require__(/*! ./Content/styles/responsive-style.css */ \"./src/Content/styles/responsive-style.css\");\n__webpack_require__(/*! ./Content/styles/articles.css */ \"./src/Content/styles/articles.css\");\n__webpack_require__(/*! ./Content/styles/normalize.css */ \"./src/Content/styles/normalize.css\");\nvar routerFactory = __webpack_require__(/*! ./Router/routerFactory */ \"./src/Router/routerFactory.js\");\n\nfunction start() {\n    var routesResolver = routerFactory.createRoutesResolver();\n    routesResolver.init();\n}\n\nstart();\n\n//# sourceURL=webpack:///./src/app.js?");
 
 /***/ })
 
