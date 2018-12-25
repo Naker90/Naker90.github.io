@@ -1,14 +1,14 @@
-<h2 id="patrncommand">Patrón Command</h2>
-<p>La idea principal de este patrón es:</p>
-<p><em>“Encapsular una petición como un objeto, de modo que puedan parametrizarse otros objetos con distintas peticiones o colas de peticiones y proporcionar soporte para realizar operaciones que puedan deshacerse”.</em></p>
-<p>Dicho con mis palabras sería encapsular la petición de una acción en un objeto que solo contenga los datos necesarios para la acción y separarla de la implementación. De esta forma se nos quedarían dos capas.</p>
-<p>Una sería la orden que podría ser un simple DTO, pero por experiencia también podemos delegarle algunas responsabilidades como validar datos de entrada o formatear datos de una forma específica para el dominio.</p>
-<p>Por otro lado tendríamos el manejador de la orden que tendría la implementación de la orden, luego en la explicación práctica entraremos más en detalles.</p>
-<p>Para la explicación práctica imaginemos la funcionalidad ‘guardar un comentario’ de una foto en una red social.</p>
-<p>Los actores son:</p>
-<p><strong>La orden</strong>: es la petición de la acción encapsulada en un objeto, a nivel de código será un DTO con los setters privados. En él podríamos hacer validaciones a los campos con los que va a trabajar el manejador de la orden, como por ejemplo comprobar si el comentario de la foto no está vacío. Esto lo podemos hacer estableciendo el constructor como privado y creando un método estático que nos retorna la instancia del objeto después de hacer las validaciones.</p>
-<p>Si imaginamos la orden para la funcionalidad de guardar un comentario podría ser a</p>
-<pre><code>public class SaveCommentaryCommnad
+<h2 class='article-title' id="patrncommand">Patrón Command</h2>
+<p class='article-paragraph'>La idea principal de este patrón es:</p>
+<p class='article-paragraph'><em>“Encapsular una petición como un objeto, de modo que puedan parametrizarse otros objetos con distintas peticiones o colas de peticiones y proporcionar soporte para realizar operaciones que puedan deshacerse”.</em></p>
+<p class='article-paragraph'>Dicho con mis palabras sería encapsular la petición de una acción en un objeto que solo contenga los datos necesarios para la acción y separarla de la implementación. De esta forma se nos quedarían dos capas.</p>
+<p class='article-paragraph'>Una sería la orden que podría ser un simple DTO, pero por experiencia también podemos delegarle algunas responsabilidades como validar datos de entrada o formatear datos de una forma específica para el dominio.</p>
+<p class='article-paragraph'>Por otro lado tendríamos el manejador de la orden que tendría la implementación de la orden, luego en la explicación práctica entraremos más en detalles.</p>
+<p class='article-paragraph'>Para la explicación práctica imaginemos la funcionalidad ‘guardar un comentario’ de una foto en una red social.</p>
+<p class='article-paragraph'>Los actores son:</p>
+<p class='article-paragraph'><strong>La orden</strong>: es la petición de la acción encapsulada en un objeto, a nivel de código será un DTO con los setters privados. En él podríamos hacer validaciones a los campos con los que va a trabajar el manejador de la orden, como por ejemplo comprobar si el comentario de la foto no está vacío. Esto lo podemos hacer estableciendo el constructor como privado y creando un método estático que nos retorna la instancia del objeto después de hacer las validaciones.</p>
+<p class='article-paragraph'>Si imaginamos la orden para la funcionalidad de guardar un comentario podría ser a</p>
+<p class='article-paragraph're><code>public class SaveCommentaryCommnad
 {
   public int UserId { get; private set; }
   public int PictureId { get; private set; }
@@ -45,12 +45,12 @@
   }
 }
 </code></pre>
-<p>Es una capa superior al manejador de la orden, en este ejemplo si el comentario que se intenta guardar para la foto es un vacío lanza una excepción con el error. Excepción que luego trataremos en una capa superior, por ejemplo, un controlador asociado a una petición POST.</p>
-<p><strong>El manejador de la orden</strong>: es la capa más interna del patrón donde está la funcionalidad principal. El objeto que representa esta capa debería de tener una única responsabilidad, siguiendo con el ejemplo anterior si este manejador guarda un comentario única y exclusivamente debería de realizar esa tarea. Las dependencias que tuviera el manejador como por ejemplo los repositorios para acceder a nuestro sistema de persisitencia se los debemos inyectar por parámetro para que lo utilice cumpliendo con los principios <a href="https://www.genbeta.com/desarrollo/solid-cinco-principios-basicos-de-diseno-de-clases">SOLID</a>.</p>
-<p>De esta forma dependemos de abstracciones y no de implementaciones, si en un futuro queremos cambiar de sistema de persistencia simplemente tendríamos que implementar un nuevo repositorio cumpliendo la interfaz que ya tenemos y reemplazarla en el manejador.</p>
-<p>Todos los manejadores que tengamos deberían de mostrar la misma API, estos sólo deberían de tener un único método público que deberían de llamarse todos igual por simetría, ejemplo: ‘Execute’, ‘Invoke’, ‘Do’. Esto es algo que debería de quedar reflejado en un estándar para el equipo de desarrollo.</p>
-<p>Así quedaría a nivel de código el manejador de la orden para el ejemplo de la funcionalidad anterior:</p>
-<pre><code>public class SaveCommentaryHandler
+<p class='article-paragraph'>Es una capa superior al manejador de la orden, en este ejemplo si el comentario que se intenta guardar para la foto es un vacío lanza una excepción con el error. Excepción que luego trataremos en una capa superior, por ejemplo, un controlador asociado a una petición POST.</p>
+<p class='article-paragraph'><strong>El manejador de la orden</strong>: es la capa más interna del patrón donde está la funcionalidad principal. El objeto que representa esta capa debería de tener una única responsabilidad, siguiendo con el ejemplo anterior si este manejador guarda un comentario única y exclusivamente debería de realizar esa tarea. Las dependencias que tuviera el manejador como por ejemplo los repositorios para acceder a nuestro sistema de persisitencia se los debemos inyectar por parámetro para que lo utilice cumpliendo con los principios <a href="https://www.genbeta.com/desarrollo/solid-cinco-principios-basicos-de-diseno-de-clases">SOLID</a>.</p>
+<p class='article-paragraph'>De esta forma dependemos de abstracciones y no de implementaciones, si en un futuro queremos cambiar de sistema de persistencia simplemente tendríamos que implementar un nuevo repositorio cumpliendo la interfaz que ya tenemos y reemplazarla en el manejador.</p>
+<p class='article-paragraph'>Todos los manejadores que tengamos deberían de mostrar la misma API, estos sólo deberían de tener un único método público que deberían de llamarse todos igual por simetría, ejemplo: ‘Execute’, ‘Invoke’, ‘Do’. Esto es algo que debería de quedar reflejado en un estándar para el equipo de desarrollo.</p>
+<p class='article-paragraph'>Así quedaría a nivel de código el manejador de la orden para el ejemplo de la funcionalidad anterior:</p>
+<p class='article-paragraph're><code>public class SaveCommentaryHandler
 {
  private readonly UserRepository userRepository;
  private readonly CommentaryRepository commentaryRepository;
@@ -76,14 +76,14 @@
  }
 }
 </code></pre>
-<p>Como podemos ver en el código he imaginado que para guardar el comentario nos es necesario conocer datos que no nos llegan con la orden, para este ejemplo el nick del usuario. Para recuperarlo utilizamos un repositorio que tiene la responsabilidad de preguntar a nuestro sistema de persistencia por un usuario con un determinado identificador. Como vemos la implementación de esta responsabilidad está extraída en un objeto que utiliza nuestro manejador como dependencia ya que el solamente debe guardar el comentario.</p>
-<p>En el caso de que nuestro manejador tuviera que realizar tareas secundarias como por ejemplo enviar emails podemos despachar eventos de negocio que realicen estas tareas, de forma sincrona o asincrona utilizando alguna cola como podria ser RabbitMQ. Podemos imaginar que necesitamos enviar un email en nuestro ejemplo, nuestro manejador de la orden una vez terminara de hacer su función despachará un evento que podría ser <em>‘CommentaryAddedToPicture’</em> el cual se encargaría de realizar esas tareas secundarias.</p>
-<p><strong>El invocador</strong>: el último actor de nuestro patrón es el invocador, será el objeto que reciba una petición, monte la orden y se lo pase al manejador de la orden. Si imaginamos que estamos en un backend web este actor podría ser un controlador asociado a una ruta POST.</p>
-<p>En la petición de este controlador nos llegaría la información recogida del FrontEnd con todo lo necesario para montar la orden.</p>
-<p>Para que el invocador no conozca el manejador que está asociado a una orden se puede utilizar un ‘Command bus’. Técnica al que tengo pensado dedicarle un post más adelante.</p>
-<p>Para el ejemplo actual no simulare estar utilIzando un bus de comando y haré que el invocador conozca al manejador que tiene que ejecutar.</p>
-<p>En código un controlador quedaría de esta manera:</p>
-<pre><code>public class SaveCommentaryController : Controller
+<p class='article-paragraph'>Como podemos ver en el código he imaginado que para guardar el comentario nos es necesario conocer datos que no nos llegan con la orden, para este ejemplo el nick del usuario. Para recuperarlo utilizamos un repositorio que tiene la responsabilidad de preguntar a nuestro sistema de persistencia por un usuario con un determinado identificador. Como vemos la implementación de esta responsabilidad está extraída en un objeto que utiliza nuestro manejador como dependencia ya que el solamente debe guardar el comentario.</p>
+<p class='article-paragraph'>En el caso de que nuestro manejador tuviera que realizar tareas secundarias como por ejemplo enviar emails podemos despachar eventos de negocio que realicen estas tareas, de forma sincrona o asincrona utilizando alguna cola como podria ser RabbitMQ. Podemos imaginar que necesitamos enviar un email en nuestro ejemplo, nuestro manejador de la orden una vez terminara de hacer su función despachará un evento que podría ser <em>‘CommentaryAddedToPicture’</em> el cual se encargaría de realizar esas tareas secundarias.</p>
+<p class='article-paragraph'><strong>El invocador</strong>: el último actor de nuestro patrón es el invocador, será el objeto que reciba una petición, monte la orden y se lo pase al manejador de la orden. Si imaginamos que estamos en un backend web este actor podría ser un controlador asociado a una ruta POST.</p>
+<p class='article-paragraph'>En la petición de este controlador nos llegaría la información recogida del FrontEnd con todo lo necesario para montar la orden.</p>
+<p class='article-paragraph'>Para que el invocador no conozca el manejador que está asociado a una orden se puede utilizar un ‘Command bus’. Técnica al que tengo pensado dedicarle un post más adelante.</p>
+<p class='article-paragraph'>Para el ejemplo actual no simulare estar utilIzando un bus de comando y haré que el invocador conozca al manejador que tiene que ejecutar.</p>
+<p class='article-paragraph'>En código un controlador quedaría de esta manera:</p>
+<p class='article-paragraph're><code>public class SaveCommentaryController : Controller
 {
     private SaveCommentaryHandler saveCommentaryHandler;
 
@@ -114,19 +114,19 @@
     }
 }
 </code></pre>
-<p>Eso de retornar un Json como respuesta del controlador es una basura, se debería de retornar respuestas que interprete el navegador con un 200 en el caso bueno y un 400 para los errores. Pero me sirve para salir del paso.</p>
-<p>Personalmente pienso que este patrón no añade mucha complejidad a nuestras implementaciones y nos aporta ventajas de mucho valor como son:</p>
-<p><strong>Reutilización del código.</strong></p>
-<p>El código anterior se podría reutilizar para diferentes puntos de entrada a nuestro dominio, por ejemplo, si tuviéramos una aplicaciones web y una API para dar servicio a una APP ambos puntos de entrada utilizarían la misma orden.</p>
-<p><strong>Fácilmente Testable.</strong></p>
-<p>Nuestros manejadores solo tienen una única responsabilidad y gracias a la inversión de dependencias es sencillo hacer dobles de prueba de esas dependencias para testear nuestro código.</p>
-<p>Por otra parte si no añadimos responsabilidades a la orden será un simple DTO. Si se la añadimos como en el ejemplo no es muy complicado testear esas validaciones.</p>
-<p><strong>Código fácilmente ampliable.</strong></p>
-<p>Como vimos en el ejemplo práctico esto es muy sencillo si despachamos eventos en nuestros manejadores.</p>
-<p><strong>Bajo acoplamiento y código limpio.</strong></p>
-<p>Al cumplir con los principios SOLID nuestro código queda muy limpio, legible y desacoplado.</p>
-<p>Hasta aquí el post, cualquier feedback es bienvenido. un saludo.</p>
-<p>Fuentes:</p>
+<p class='article-paragraph'>Eso de retornar un Json como respuesta del controlador es una basura, se debería de retornar respuestas que interprete el navegador con un 200 en el caso bueno y un 400 para los errores. Pero me sirve para salir del paso.</p>
+<p class='article-paragraph'>Personalmente pienso que este patrón no añade mucha complejidad a nuestras implementaciones y nos aporta ventajas de mucho valor como son:</p>
+<p class='article-paragraph'><strong>Reutilización del código.</strong></p>
+<p class='article-paragraph'>El código anterior se podría reutilizar para diferentes puntos de entrada a nuestro dominio, por ejemplo, si tuviéramos una aplicaciones web y una API para dar servicio a una APP ambos puntos de entrada utilizarían la misma orden.</p>
+<p class='article-paragraph'><strong>Fácilmente Testable.</strong></p>
+<p class='article-paragraph'>Nuestros manejadores solo tienen una única responsabilidad y gracias a la inversión de dependencias es sencillo hacer dobles de prueba de esas dependencias para testear nuestro código.</p>
+<p class='article-paragraph'>Por otra parte si no añadimos responsabilidades a la orden será un simple DTO. Si se la añadimos como en el ejemplo no es muy complicado testear esas validaciones.</p>
+<p class='article-paragraph'><strong>Código fácilmente ampliable.</strong></p>
+<p class='article-paragraph'>Como vimos en el ejemplo práctico esto es muy sencillo si despachamos eventos en nuestros manejadores.</p>
+<p class='article-paragraph'><strong>Bajo acoplamiento y código limpio.</strong></p>
+<p class='article-paragraph'>Al cumplir con los principios SOLID nuestro código queda muy limpio, legible y desacoplado.</p>
+<p class='article-paragraph'>Hasta aquí el post, cualquier feedback es bienvenido. un saludo.</p>
+<p class='article-paragraph'>Fuentes:</p>
 <ul>
 <li><a href="https://medium.com/all-you-need-is-clean-code/https-medium-com-all-you-need-is-clean-code-patron-command-fde0e5243cd9">https://medium.com/all-you-need-is-clean-code/https-medium-com-all-you-need-is-clean-code-patron-command-fde0e5243cd9</a></li>
 <li><a href="https://danielggarcia.wordpress.com/2014/04/28/patrones-de-comportamiento-ii-patron-command/">https://danielggarcia.wordpress.com/2014/04/28/patrones-de-comportamiento-ii-patron-command/</a></li>

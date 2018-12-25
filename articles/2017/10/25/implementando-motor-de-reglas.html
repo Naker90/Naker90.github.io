@@ -1,7 +1,7 @@
-<h2 id="implementandonuestropropiomotordereglasjava">Implementando nuestro propio motor de reglas - Java</h2>
-<p>Un motor de reglas es una estrategia en programación para ejecutar acciones acorde a unas condiciones, esto podría sonar como si fuese un simple condicional if-then y en realidad la idea es la misma pero con el motor de reglas tendremos un software mucho más escalable y legible.</p>
-<p>Supongamos que tenemos este ejemplo:</p>
-<pre><code>class FizzBuzz{
+<h2 class='article-title' id="implementandonuestropropiomotordereglasjava">Implementando nuestro propio motor de reglas - Java</h2>
+<p class='article-paragraph'>Un motor de reglas es una estrategia en programación para ejecutar acciones acorde a unas condiciones, esto podría sonar como si fuese un simple condicional if-then y en realidad la idea es la misma pero con el motor de reglas tendremos un software mucho más escalable y legible.</p>
+<p class='article-paragraph'>Supongamos que tenemos este ejemplo:</p>
+<p class='article-paragraph're><code>class FizzBuzz{
     String generate(int number){
         if(isFizz(number) &amp;&amp; isBuzz(number)){
             return "FizzBuzz"
@@ -23,28 +23,28 @@
         return number % 5 == 0;
     }
 </code></pre>
-<p>Como vemos tenemos una clase llamada <em>FizzBuzz</em> que implementa un método llamado generate, este método nos retorna en base a un número una cadena o el mismo número como una string; Todo depende si el dicho número cumple con las reglas establecidas para FizzBuzz que son:</p>
+<p class='article-paragraph'>Como vemos tenemos una clase llamada <em>FizzBuzz</em> que implementa un método llamado generate, este método nos retorna en base a un número una cadena o el mismo número como una string; Todo depende si el dicho número cumple con las reglas establecidas para FizzBuzz que son:</p>
 <ul>
 <li>Retorna FizzBuzz si el número es divisible entre 3 y a su vez divisible por 5.</li>
 <li>Retorna Buzz si el número es divisible por 5.</li>
 <li>Retorna Fizz si el número es divisible por 3.</li>
 <li>Retorna el mismo número si no se cumple las condiciones anteriores.</li>
 </ul>
-<p>¿Parece una buena solución verdad?, bueno para este caso sí pero ¿y si en vez de tener 3 reglas tenemos 50? el código se nos quedaría con muchos condicionales unos debajo de otros. Esto sería una pesadilla de mantener, generaría una clase muy grande, los comportamientos de cada regla estarían todos en el mismo lugar, se nos complicaría el trabajo a la hora de añadir nuevas reglas. En definitiva es una mala práctica de programación.</p>
-<p>Un motor de reglas nos solucionaría todos los problemas anteriormente dichos, pero, ¿Cómo implementamos nuestro propio motor de reglas?. En un artículo llamado <a href="https://martinfowler.com/bliki/RulesEngine.html">Should I use a Rules Engine?</a> de Martin Fowler nos explica como hacerlo.</p>
-<p><em>You can build a simple rules engine yourself. All you need is to create a bunch of objects with conditions and actions, store them in a collection, and run through them to evaluate the conditions and execute the actions.</em></p>
-<p>¿Parece sencillo verdad?, bueno vamos a ello.</p>
-<p>Lo primero que haremos es crear una interfaz para definir los métodos que tendrán en común todas nuestras en regla.</p>
-<pre><code>package rules;
+<p class='article-paragraph'>¿Parece una buena solución verdad?, bueno para este caso sí pero ¿y si en vez de tener 3 reglas tenemos 50? el código se nos quedaría con muchos condicionales unos debajo de otros. Esto sería una pesadilla de mantener, generaría una clase muy grande, los comportamientos de cada regla estarían todos en el mismo lugar, se nos complicaría el trabajo a la hora de añadir nuevas reglas. En definitiva es una mala práctica de programación.</p>
+<p class='article-paragraph'>Un motor de reglas nos solucionaría todos los problemas anteriormente dichos, pero, ¿Cómo implementamos nuestro propio motor de reglas?. En un artículo llamado <a href="https://martinfowler.com/bliki/RulesEngine.html">Should I use a Rules Engine?</a> de Martin Fowler nos explica como hacerlo.</p>
+<p class='article-paragraph'><em>You can build a simple rules engine yourself. All you need is to create a bunch of objects with conditions and actions, store them in a collection, and run through them to evaluate the conditions and execute the actions.</em></p>
+<p class='article-paragraph'>¿Parece sencillo verdad?, bueno vamos a ello.</p>
+<p class='article-paragraph'>Lo primero que haremos es crear una interfaz para definir los métodos que tendrán en común todas nuestras en regla.</p>
+<p class='article-paragraph're><code>package rules;
 
 public interface RulesInterface {
     boolean condition(int number);
     String action();
 }
 </code></pre>
-<p>El método condition almacenará la condición de la regla y el método action la acción de la regla.</p>
-<p>Ahora crearemos 3 clases (porque nosotros tenemos 3 reglas, en caso de tener más crearemos tantas clases como reglas existan) que implementen esta interfaz, cada clase tendrá su propia condición y su propia acción:</p>
-<pre><code>package rules;
+<p class='article-paragraph'>El método condition almacenará la condición de la regla y el método action la acción de la regla.</p>
+<p class='article-paragraph'>Ahora crearemos 3 clases (porque nosotros tenemos 3 reglas, en caso de tener más crearemos tantas clases como reglas existan) que implementen esta interfaz, cada clase tendrá su propia condición y su propia acción:</p>
+<p class='article-paragraph're><code>package rules;
 
 public class FizzBuzzRule implements RulesInterface {
     @Override
@@ -58,7 +58,7 @@ public class FizzBuzzRule implements RulesInterface {
     }
 }
 </code></pre>
-<pre><code>package rules;
+<p class='article-paragraph're><code>package rules;
 
 public class BuzzRule implements RulesInterface {
     @Override
@@ -72,7 +72,7 @@ public class BuzzRule implements RulesInterface {
     }
 }
 </code></pre>
-<pre><code>package rules;
+<p class='article-paragraph're><code>package rules;
 
 public class FizzRule implements RulesInterface {
     @Override
@@ -86,8 +86,8 @@ public class FizzRule implements RulesInterface {
     }
 }
 </code></pre>
-<p>¡Ya tenemos nuestras reglas implementadas!, solo faltaría crear el motor de reglas que será el encargado de almacenar las reglas en una lista y ejecutarlas todas cuando se le diga. Nuestro motor de reglas quedaría de esta forma:</p>
-<pre><code>import rules.RulesInterface;
+<p class='article-paragraph'>¡Ya tenemos nuestras reglas implementadas!, solo faltaría crear el motor de reglas que será el encargado de almacenar las reglas en una lista y ejecutarlas todas cuando se le diga. Nuestro motor de reglas quedaría de esta forma:</p>
+<p class='article-paragraph're><code>import rules.RulesInterface;
 import java.utils.ArrayList;
 
 class RulesEngine{
@@ -112,9 +112,9 @@ class RulesEngine{
     }
 }
 </code></pre>
-<p>En la clase <em>RulesEngine</em> tenemos un Array que almacena objetos del tipo de nuestra interfaz, como todas nuestras reglas la implementan no tendremos problemas en añadirlas a la lista mediante el método addRule. El método executeRules recibe por parámetro un número que es necesario para pasarlo a nuestras reglas, luego recorre el array y va evaluando cada condición de cada regla; Si se da el caso de cumplirse una de estas condiciones retorna la acción de la regla, en el caso de no cumplirse ninguna retorna el mismo número convertido a String.</p>
-<p>Ya solo nos queda refactorizar nuestra clase FizzBuzz para que utilice nuestro motor de reglas.</p>
-<pre><code>import rules.FizzRule;
+<p class='article-paragraph'>En la clase <em>RulesEngine</em> tenemos un Array que almacena objetos del tipo de nuestra interfaz, como todas nuestras reglas la implementan no tendremos problemas en añadirlas a la lista mediante el método addRule. El método executeRules recibe por parámetro un número que es necesario para pasarlo a nuestras reglas, luego recorre el array y va evaluando cada condición de cada regla; Si se da el caso de cumplirse una de estas condiciones retorna la acción de la regla, en el caso de no cumplirse ninguna retorna el mismo número convertido a String.</p>
+<p class='article-paragraph'>Ya solo nos queda refactorizar nuestra clase FizzBuzz para que utilice nuestro motor de reglas.</p>
+<p class='article-paragraph're><code>import rules.FizzRule;
 import rules.BuzzRule;
 import rules.FizzBuzzRule;
 
@@ -134,6 +134,6 @@ class FizzBuzz{
     }
 }
 </code></pre>
-<p>¡Bonito verdad!.</p>
-<p>Podríamos mejorar nuestro motor de reglas añadiendo una variable que establezca la prioridad de la regla y reordenando el vector en base a esta variable siempre que se añade una nueva. De esta forma daría igual el orden en que añadamos las reglas, se ejecutarán por orden de prioridad. Esto ya os lo dejo a vosotros :D.</p>
-<p>Un saludo.</p>
+<p class='article-paragraph'>¡Bonito verdad!.</p>
+<p class='article-paragraph'>Podríamos mejorar nuestro motor de reglas añadiendo una variable que establezca la prioridad de la regla y reordenando el vector en base a esta variable siempre que se añade una nueva. De esta forma daría igual el orden en que añadamos las reglas, se ejecutarán por orden de prioridad. Esto ya os lo dejo a vosotros :D.</p>
+<p class='article-paragraph'>Un saludo.</p>
