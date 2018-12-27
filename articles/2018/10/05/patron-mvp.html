@@ -1,4 +1,4 @@
-<h2 class='article-title' id="patrnmodelovistapresentadorconvistapasiva">Patrón Modelo-Vista-Presentador con vista pasiva.</h2>
+<h2 class='article-title'>Patrón Modelo-Vista-Presentador con vista pasiva.</h2>
 <p class='article-paragraph'><em>El patrón MVP es utilizado para desarrollar interfaces de usuario.</em></p>
 <p class='article-paragraph'>Sus principales características son:</p>
 <ul>
@@ -9,9 +9,9 @@
 <p class='article-paragraph'>Nuestra vista a nivel de responsabilidades tiene que ser tal que así.</p>
 <p class='article-paragraph'><img src="./images/mvp-1.jpeg" alt="alt text" title="Gato sentado en un sillón" /></p>
 <p class='article-paragraph'>También tenemos la posibilidad de poder utilizar diferentes tecnologías en nuestras vistas, al tener <strong>totalmente desacoplada la vista de la lógica de la aplicación</strong> tenemos total libertad de utilizar la tecnología que más nos convenga en cada momento. El único problema de esto es que <strong>capamos la tecnología</strong> ya que nos vemos obligados a implementarla de acuerdo a como funciona nuestro patrón.</p>
-<h3 class='article-subtitle' id="cmofunciona">¿Cómo funciona?</h3>
+<h3 class='article-subtitle'>¿Cómo funciona?</h3>
 <p class='article-paragraph'>Este patrón implementa el patrón <em>observer</em> para que la vista notifique al presentador de los eventos de entradas que ocurren en la aplicación. La vista expone funciones de suscripción que utiliza el presentador para pasarle los manejadores antes los posibles eventos de entrada. Esto puede sonar más complicado de lo que parece, veamos un ejemplo de código</p>
-<p class='article-paragraph're><code class="javascript language-javascript">function presenter(view){
+<pre class='article-code'><code class="javascript language-javascript">function presenter(view){
     view.subscribeToClickEventRequested(clickEventRequestedHandler);
 
     function clickEventRequestedHandler(){
@@ -32,8 +32,7 @@ function view(){
     return {
         subscribeToClickEventRequested: subscribeToClickEventRequested
     }
-}
-</code></pre>
+}</code></pre>
 <p class='article-paragraph'>En el ejemplo anterior vemos que la vista expone un metodo de subscripcion llamado <em>subscribeToClickEventRequested</em> el cual utilizará el presentador para suscribirse al evento de un botón en la vista. En el momento en el que se suscribe a la vista le pasa el manejador para ese evento, para este ejemplo es la función <em>clickEventRequestedHandler</em>. De esta manera cuando el usuario pulse sobre el botón va a ejecutar la lógica que se encuentra en el presentador.</p>
 <p class='article-paragraph'>La vista va a exponer una API tan amplia como acciones se puedan realizar en la interfaz.</p>
 <p class='article-paragraph'>Vamos a hacer un ejemplo de lo comentado anteriormente, supongamos que somo una empresa la cual tiene una página web y necesitamos guardar la información de contacto de una persona a través de un formulario para poder contactar con ella. Para este ejemplo voy a utilizar una <a href="https://jsonplaceholder.typicode.com/">Api pública</a> que me expone un recurso para registrar a una persona.</p>
@@ -44,7 +43,7 @@ function view(){
 <li>Hemos recibido un error del servidor a la hora de registrar a una person</li>
 </ul>
 <p class='article-paragraph'>Comenzando con nuestro ciclo de TDD, esta sería la primera prueba en roja que debemos pasar. El caso bueno</p>
-<p class='article-paragraph're><code class="javascript language-javascript">//Faltan imports y configuración de mocks - codigo completo en https://github.com/Naker90/MVP-POC
+<pre class='article-code'><code class="javascript language-javascript">//Faltan imports y configuración de mocks - codigo completo en https://github.com/Naker90/MVP-POC
 
 let registerPersonRequestedHandler = () =&gt; {};
 
@@ -75,13 +74,12 @@ test("shows success message when register person successfully", () =&gt; {
     registerPersonRequestedHandler(person);
 
     expect(view.showSuccessMessage).toHaveBeenCalled();
-});
-</code></pre>
+});</code></pre>
 <p class='article-paragraph'>El test es muy sencillo, he omitido la configuración de los mocks y las importaciones para no tener ruido.</p>
 <p class='article-paragraph'>Creamos un doble de prueba para la función de suscripción de la vista, de esta manera podremos simular el evento del usuario ejecutando la función <em>registerPersonRequestedHandler</em>.</p>
 <p class='article-paragraph'>He diseñado el test de tal forma que aparece un nuevo actor, el cliente. Esta dependencia será la encargada de hacer las peticiones AJAX.</p>
 <p class='article-paragraph'>el código para pasar este test sería el siguiente:</p>
-<p class='article-paragraph're><code class="javascript language-javascript">function presenter(view, client) {
+<pre class='article-code'><code class="javascript language-javascript">function presenter(view, client) {
 
     view.subscribeToRegisterPersonRequested(registerPersonRequestedHandler);
 
@@ -98,12 +96,11 @@ test("shows success message when register person successfully", () =&gt; {
             view.showSuccessMessage();
         }
     }
-}
-</code></pre>
+}</code></pre>
 <p class='article-paragraph'>El código de la vista y del cliente no tendrán más que las definiciones de las funciones que exponen, ya que de momento no necesitaremos implementarlas.</p>
 <p class='article-paragraph'>Como podemos ver, al tener la lógica extraída, testear resulta una tarea muy sencilla. El siguiente caso de prueba será la acción ante una respuesta errónea del servidor, lo voy a omitir ya que es muy similar al anterior.</p>
 <p class='article-paragraph'>Una vez hayamos terminado el ciclo de TDD con todos los casos tendríamos terminada la parte del presentador. El siguiente paso sería implementar la vista, simplemente interactuar con el HTML. La parte de la vista la podemos testear con test de integración, un primer posible test sería el siguient</p>
-<p class='article-paragraph're><code class="javascript language-javascript">/Faltan importaciones, configuracion de mocks y funcion loadTemplate
+<pre class='article-code'><code class="javascript language-javascript">/Faltan importaciones, configuracion de mocks y funcion loadTemplate
 
 describe("register person", function() {
 
@@ -131,10 +128,9 @@ describe("register person", function() {
 
         expect(message.style.color).toBe("green");
     });
-}
-</code></pre>
+}</code></pre>
 <p class='article-paragraph'>Omitiré el segundo test ya que es muy similar al anterior, la implementación completa de la vista quedaría de la siguiente manera:</p>
-<p class='article-paragraph're><code class="javascript language-javascript">function view(){
+<pre class='article-code'><code class="javascript language-javascript">function view(){
 
      let registerPersonRequestedHandler = () =&gt; {};
 
@@ -181,8 +177,7 @@ describe("register person", function() {
          showSuccessMessage: showSuccessMessage,
          showErrorMessage: showErrorMessage
      }
- }
-</code></pre>
+ }</code></pre>
 <p class='article-paragraph'>El cliente es simplemente un objeto que contiene la llamada AJAX hacia la API correspondiente.</p>
 <p class='article-paragraph'>Una vez terminado lo unico que quedaria es inicializar el presentador pasándole las dependencias en el bundle de la vista.</p>
 <p class='article-paragraph'>El ejemplo completo lo puedes ver en <a href="https://github.com/Naker90/MVP-POC">mi repositorio de GitHub</a></p>
