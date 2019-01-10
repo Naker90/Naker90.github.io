@@ -248,15 +248,27 @@ eval("\n\n__webpack_require__(/*! ./Content/styles/main-style.css */ \"./src/App
 
 /***/ }),
 
-/***/ "./src/App/Article/Controllers/ArticleController.js":
-/*!**********************************************************!*\
-  !*** ./src/App/Article/Controllers/ArticleController.js ***!
-  \**********************************************************/
+/***/ "./src/App/Article/ArticleController.js":
+/*!**********************************************!*\
+  !*** ./src/App/Article/ArticleController.js ***!
+  \**********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nfunction ArticleController(_ref) {\n    var view = _ref.view,\n        fileReaderService = _ref.fileReaderService;\n\n\n    function execute(ctx) {\n        fileReaderService.read({\n            filePath: buildPath({ context: ctx }),\n            successCallback: function successCallback(html) {\n                return view.render({ content: html });\n            },\n            errorCallback: function errorCallback() {\n                return view.render({ content: \"Articulo no encontrado.\" });\n            }\n        });\n\n        function buildPath(_ref2) {\n            var context = _ref2.context;\n\n            return \"./articles/\" + context.params.year + \"/\" + context.params.month + \"/\" + context.params.day + \"/\" + context.params.articleName + \".html\";\n        }\n    }\n\n    return {\n        execute: execute\n    };\n}\n\nmodule.exports = ArticleController;\n\n//# sourceURL=webpack:///./src/App/Article/Controllers/ArticleController.js?");
+eval("\n\nfunction ArticleController(_ref) {\n    var view = _ref.view,\n        fileReaderService = _ref.fileReaderService;\n\n\n    function execute(ctx) {\n        fileReaderService.read({\n            filePath: buildPath({ context: ctx }),\n            successCallback: function successCallback(html) {\n                return view.render({ content: html });\n            },\n            errorCallback: function errorCallback() {\n                return view.render({ content: \"Articulo no encontrado.\" });\n            }\n        });\n\n        function buildPath(_ref2) {\n            var context = _ref2.context;\n\n            return \"./articles/\" + context.params.year + \"/\" + context.params.month + \"/\" + context.params.day + \"/\" + context.params.articleName + \".html\";\n        }\n    }\n\n    return {\n        execute: execute\n    };\n}\n\nmodule.exports = ArticleController;\n\n//# sourceURL=webpack:///./src/App/Article/ArticleController.js?");
+
+/***/ }),
+
+/***/ "./src/App/Article/ArticleView.js":
+/*!****************************************!*\
+  !*** ./src/App/Article/ArticleView.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nfunction ArticleView(_ref) {\n    var renderService = _ref.renderService;\n\n\n    function render(_ref2) {\n        var content = _ref2.content;\n\n        renderService.render({ content: content });\n    }\n\n    return {\n        render: render\n    };\n}\n\nmodule.exports = ArticleView;\n\n//# sourceURL=webpack:///./src/App/Article/ArticleView.js?");
 
 /***/ }),
 
@@ -268,19 +280,7 @@ eval("\n\nfunction ArticleController(_ref) {\n    var view = _ref.view,\n       
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});\nexports.createArticleController = undefined;\n\nvar _RenderService = __webpack_require__(/*! ../Services/RenderService */ \"./src/App/Services/RenderService.js\");\n\nvar _RenderService2 = _interopRequireDefault(_RenderService);\n\nvar _ArticleController = __webpack_require__(/*! ./Controllers/ArticleController */ \"./src/App/Article/Controllers/ArticleController.js\");\n\nvar _ArticleController2 = _interopRequireDefault(_ArticleController);\n\nvar _ArticleView = __webpack_require__(/*! ./Views/ArticleView */ \"./src/App/Article/Views/ArticleView.js\");\n\nvar _ArticleView2 = _interopRequireDefault(_ArticleView);\n\nvar _FileReaderService = __webpack_require__(/*! ../Services/FileReaderService */ \"./src/App/Services/FileReaderService.js\");\n\nvar _FileReaderService2 = _interopRequireDefault(_FileReaderService);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar createArticleController = exports.createArticleController = function createArticleController() {\n    var view = (0, _ArticleView2.default)({ renderService: (0, _RenderService2.default)() });\n    return (0, _ArticleController2.default)({ view: view, fileReaderService: (0, _FileReaderService2.default)() });\n};\n\n//# sourceURL=webpack:///./src/App/Article/Factory.js?");
-
-/***/ }),
-
-/***/ "./src/App/Article/Views/ArticleView.js":
-/*!**********************************************!*\
-  !*** ./src/App/Article/Views/ArticleView.js ***!
-  \**********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\n\nfunction ArticleView(_ref) {\n    var renderService = _ref.renderService;\n\n\n    function render(_ref2) {\n        var content = _ref2.content;\n\n        renderService.render({ content: content });\n    }\n\n    return {\n        render: render\n    };\n}\n\nmodule.exports = ArticleView;\n\n//# sourceURL=webpack:///./src/App/Article/Views/ArticleView.js?");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});\nexports.createArticleController = undefined;\n\nvar _RenderService = __webpack_require__(/*! ../Services/RenderService */ \"./src/App/Services/RenderService.js\");\n\nvar _RenderService2 = _interopRequireDefault(_RenderService);\n\nvar _ArticleController = __webpack_require__(/*! ./ArticleController */ \"./src/App/Article/ArticleController.js\");\n\nvar _ArticleController2 = _interopRequireDefault(_ArticleController);\n\nvar _ArticleView = __webpack_require__(/*! ./ArticleView */ \"./src/App/Article/ArticleView.js\");\n\nvar _ArticleView2 = _interopRequireDefault(_ArticleView);\n\nvar _FileReaderService = __webpack_require__(/*! ../Services/FileReaderService */ \"./src/App/Services/FileReaderService.js\");\n\nvar _FileReaderService2 = _interopRequireDefault(_FileReaderService);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar createArticleController = exports.createArticleController = function createArticleController() {\n    var view = (0, _ArticleView2.default)({ renderService: (0, _RenderService2.default)() });\n    return (0, _ArticleController2.default)({ view: view, fileReaderService: (0, _FileReaderService2.default)() });\n};\n\n//# sourceURL=webpack:///./src/App/Article/Factory.js?");
 
 /***/ }),
 
@@ -339,18 +339,6 @@ eval("// removed by extract-text-webpack-plugin\n\n//# sourceURL=webpack:///./sr
 
 /***/ }),
 
-/***/ "./src/App/Home/Controllers/HomeController.js":
-/*!****************************************************!*\
-  !*** ./src/App/Home/Controllers/HomeController.js ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\n\nfunction HomeController(_ref) {\n    var view = _ref.view,\n        articles = _ref.articles;\n\n\n    function execute() {\n        view.render({ articles: articles });\n    }\n\n    return {\n        execute: execute\n    };\n}\n\nmodule.exports = HomeController;\n\n//# sourceURL=webpack:///./src/App/Home/Controllers/HomeController.js?");
-
-/***/ }),
-
 /***/ "./src/App/Home/Factory.js":
 /*!*********************************!*\
   !*** ./src/App/Home/Factory.js ***!
@@ -359,31 +347,31 @@ eval("\n\nfunction HomeController(_ref) {\n    var view = _ref.view,\n        ar
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});\nexports.createHomeController = undefined;\n\nvar _RenderService = __webpack_require__(/*! ../Services/RenderService */ \"./src/App/Services/RenderService.js\");\n\nvar _RenderService2 = _interopRequireDefault(_RenderService);\n\nvar _HomeController = __webpack_require__(/*! ./Controllers/HomeController */ \"./src/App/Home/Controllers/HomeController.js\");\n\nvar _HomeController2 = _interopRequireDefault(_HomeController);\n\nvar _HomeView = __webpack_require__(/*! ./Views/HomeView.jsx */ \"./src/App/Home/Views/HomeView.jsx\");\n\nvar _HomeView2 = _interopRequireDefault(_HomeView);\n\nvar _articles = __webpack_require__(/*! ../../Articles/articles */ \"./src/Articles/articles.js\");\n\nvar _articles2 = _interopRequireDefault(_articles);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar createHomeController = exports.createHomeController = function createHomeController() {\n    var view = (0, _HomeView2.default)({ renderService: (0, _RenderService2.default)() });\n    return (0, _HomeController2.default)({ view: view, articles: _articles2.default });\n};\n\n//# sourceURL=webpack:///./src/App/Home/Factory.js?");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});\nexports.createHomeController = undefined;\n\nvar _RenderService = __webpack_require__(/*! ../Services/RenderService */ \"./src/App/Services/RenderService.js\");\n\nvar _RenderService2 = _interopRequireDefault(_RenderService);\n\nvar _HomeController = __webpack_require__(/*! ./HomeController */ \"./src/App/Home/HomeController.js\");\n\nvar _HomeController2 = _interopRequireDefault(_HomeController);\n\nvar _HomeView = __webpack_require__(/*! ./HomeView.jsx */ \"./src/App/Home/HomeView.jsx\");\n\nvar _HomeView2 = _interopRequireDefault(_HomeView);\n\nvar _articles = __webpack_require__(/*! ../../Articles/articles */ \"./src/Articles/articles.js\");\n\nvar _articles2 = _interopRequireDefault(_articles);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar createHomeController = exports.createHomeController = function createHomeController() {\n    var view = (0, _HomeView2.default)({ renderService: (0, _RenderService2.default)() });\n    return (0, _HomeController2.default)({ view: view, articles: _articles2.default });\n};\n\n//# sourceURL=webpack:///./src/App/Home/Factory.js?");
 
 /***/ }),
 
-/***/ "./src/App/Home/Views/HomeView.jsx":
-/*!*****************************************!*\
-  !*** ./src/App/Home/Views/HomeView.jsx ***!
-  \*****************************************/
+/***/ "./src/App/Home/HomeController.js":
+/*!****************************************!*\
+  !*** ./src/App/Home/HomeController.js ***!
+  \****************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nvar _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();\n\nvar _react = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n\nvar _react2 = _interopRequireDefault(_react);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError(\"this hasn't been initialised - super() hasn't been called\"); } return call && (typeof call === \"object\" || typeof call === \"function\") ? call : self; }\n\nfunction _inherits(subClass, superClass) { if (typeof superClass !== \"function\" && superClass !== null) { throw new TypeError(\"Super expression must either be null or a function, not \" + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }\n\nvar Article = function (_React$Component) {\n    _inherits(Article, _React$Component);\n\n    function Article() {\n        _classCallCheck(this, Article);\n\n        return _possibleConstructorReturn(this, (Article.__proto__ || Object.getPrototypeOf(Article)).apply(this, arguments));\n    }\n\n    _createClass(Article, [{\n        key: \"render\",\n        value: function render() {\n            return _react2.default.createElement(\n                \"a\",\n                { href: this.props.article.route, className: \"link\" },\n                _react2.default.createElement(\n                    \"article\",\n                    null,\n                    _react2.default.createElement(\n                        \"h2\",\n                        null,\n                        this.props.article.name\n                    ),\n                    _react2.default.createElement(\n                        \"p\",\n                        null,\n                        this.props.article.description\n                    ),\n                    _react2.default.createElement(\n                        \"p\",\n                        null,\n                        \"Publicado por \",\n                        this.props.article.author,\n                        \" el dia \",\n                        this.props.article.date\n                    )\n                )\n            );\n        }\n    }]);\n\n    return Article;\n}(_react2.default.Component);\n\nvar ArticlesList = function (_React$Component2) {\n    _inherits(ArticlesList, _React$Component2);\n\n    function ArticlesList() {\n        _classCallCheck(this, ArticlesList);\n\n        return _possibleConstructorReturn(this, (ArticlesList.__proto__ || Object.getPrototypeOf(ArticlesList)).apply(this, arguments));\n    }\n\n    _createClass(ArticlesList, [{\n        key: \"render\",\n        value: function render() {\n            return _react2.default.createElement(\n                \"div\",\n                null,\n                this.props.articles.map(function (article, key) {\n                    return _react2.default.createElement(Article, { key: key, article: article });\n                })\n            );\n        }\n    }]);\n\n    return ArticlesList;\n}(_react2.default.Component);\n\nfunction HomeView(_ref) {\n    var renderService = _ref.renderService;\n\n\n    function render(_ref2) {\n        var articles = _ref2.articles;\n\n        renderService.reactRender({ component: _react2.default.createElement(ArticlesList, { articles: articles }) });\n    }\n\n    return {\n        render: render\n    };\n}\n\nmodule.exports = HomeView;\n\n//# sourceURL=webpack:///./src/App/Home/Views/HomeView.jsx?");
+eval("\n\nfunction HomeController(_ref) {\n    var view = _ref.view,\n        articles = _ref.articles;\n\n\n    function execute() {\n        view.render({ articles: articles });\n    }\n\n    return {\n        execute: execute\n    };\n}\n\nmodule.exports = HomeController;\n\n//# sourceURL=webpack:///./src/App/Home/HomeController.js?");
 
 /***/ }),
 
-/***/ "./src/App/NotFound/Controllers/NotFoundController.js":
-/*!************************************************************!*\
-  !*** ./src/App/NotFound/Controllers/NotFoundController.js ***!
-  \************************************************************/
+/***/ "./src/App/Home/HomeView.jsx":
+/*!***********************************!*\
+  !*** ./src/App/Home/HomeView.jsx ***!
+  \***********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nfunction NotFoundController(_ref) {\n    var view = _ref.view;\n\n\n    function execute() {\n        view.render();\n    }\n\n    return {\n        execute: execute\n    };\n}\n\nmodule.exports = NotFoundController;\n\n//# sourceURL=webpack:///./src/App/NotFound/Controllers/NotFoundController.js?");
+eval("\n\nvar _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();\n\nvar _react = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n\nvar _react2 = _interopRequireDefault(_react);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError(\"this hasn't been initialised - super() hasn't been called\"); } return call && (typeof call === \"object\" || typeof call === \"function\") ? call : self; }\n\nfunction _inherits(subClass, superClass) { if (typeof superClass !== \"function\" && superClass !== null) { throw new TypeError(\"Super expression must either be null or a function, not \" + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }\n\nvar Article = function (_React$Component) {\n    _inherits(Article, _React$Component);\n\n    function Article() {\n        _classCallCheck(this, Article);\n\n        return _possibleConstructorReturn(this, (Article.__proto__ || Object.getPrototypeOf(Article)).apply(this, arguments));\n    }\n\n    _createClass(Article, [{\n        key: \"render\",\n        value: function render() {\n            return _react2.default.createElement(\n                \"a\",\n                { href: this.props.article.route, className: \"link\" },\n                _react2.default.createElement(\n                    \"article\",\n                    null,\n                    _react2.default.createElement(\n                        \"h2\",\n                        null,\n                        this.props.article.name\n                    ),\n                    _react2.default.createElement(\n                        \"p\",\n                        null,\n                        this.props.article.description\n                    ),\n                    _react2.default.createElement(\n                        \"p\",\n                        null,\n                        \"Publicado por \",\n                        this.props.article.author,\n                        \" el dia \",\n                        this.props.article.date\n                    )\n                )\n            );\n        }\n    }]);\n\n    return Article;\n}(_react2.default.Component);\n\nvar ArticlesList = function (_React$Component2) {\n    _inherits(ArticlesList, _React$Component2);\n\n    function ArticlesList() {\n        _classCallCheck(this, ArticlesList);\n\n        return _possibleConstructorReturn(this, (ArticlesList.__proto__ || Object.getPrototypeOf(ArticlesList)).apply(this, arguments));\n    }\n\n    _createClass(ArticlesList, [{\n        key: \"render\",\n        value: function render() {\n            return _react2.default.createElement(\n                \"div\",\n                null,\n                this.props.articles.map(function (article, key) {\n                    return _react2.default.createElement(Article, { key: key, article: article });\n                })\n            );\n        }\n    }]);\n\n    return ArticlesList;\n}(_react2.default.Component);\n\nfunction HomeView(_ref) {\n    var renderService = _ref.renderService;\n\n\n    function render(_ref2) {\n        var articles = _ref2.articles;\n\n        renderService.reactRender({ component: _react2.default.createElement(ArticlesList, { articles: articles }) });\n    }\n\n    return {\n        render: render\n    };\n}\n\nmodule.exports = HomeView;\n\n//# sourceURL=webpack:///./src/App/Home/HomeView.jsx?");
 
 /***/ }),
 
@@ -395,19 +383,31 @@ eval("\n\nfunction NotFoundController(_ref) {\n    var view = _ref.view;\n\n\n  
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});\nexports.createNotFoundController = undefined;\n\nvar _RenderService = __webpack_require__(/*! ../Services/RenderService */ \"./src/App/Services/RenderService.js\");\n\nvar _RenderService2 = _interopRequireDefault(_RenderService);\n\nvar _NotFoundController = __webpack_require__(/*! ./Controllers/NotFoundController */ \"./src/App/NotFound/Controllers/NotFoundController.js\");\n\nvar _NotFoundController2 = _interopRequireDefault(_NotFoundController);\n\nvar _NotFoundView = __webpack_require__(/*! ./Views/NotFoundView */ \"./src/App/NotFound/Views/NotFoundView.js\");\n\nvar _NotFoundView2 = _interopRequireDefault(_NotFoundView);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar createNotFoundController = exports.createNotFoundController = function createNotFoundController() {\n    var view = (0, _NotFoundView2.default)({ renderService: (0, _RenderService2.default)() });\n    return (0, _NotFoundController2.default)({ view: view });\n};\n\n//# sourceURL=webpack:///./src/App/NotFound/Factory.js?");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});\nexports.createNotFoundController = undefined;\n\nvar _RenderService = __webpack_require__(/*! ../Services/RenderService */ \"./src/App/Services/RenderService.js\");\n\nvar _RenderService2 = _interopRequireDefault(_RenderService);\n\nvar _NotFoundController = __webpack_require__(/*! ./NotFoundController */ \"./src/App/NotFound/NotFoundController.js\");\n\nvar _NotFoundController2 = _interopRequireDefault(_NotFoundController);\n\nvar _NotFoundView = __webpack_require__(/*! ./NotFoundView */ \"./src/App/NotFound/NotFoundView.js\");\n\nvar _NotFoundView2 = _interopRequireDefault(_NotFoundView);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar createNotFoundController = exports.createNotFoundController = function createNotFoundController() {\n    var view = (0, _NotFoundView2.default)({ renderService: (0, _RenderService2.default)() });\n    return (0, _NotFoundController2.default)({ view: view });\n};\n\n//# sourceURL=webpack:///./src/App/NotFound/Factory.js?");
 
 /***/ }),
 
-/***/ "./src/App/NotFound/Views/NotFoundView.js":
+/***/ "./src/App/NotFound/NotFoundController.js":
 /*!************************************************!*\
-  !*** ./src/App/NotFound/Views/NotFoundView.js ***!
+  !*** ./src/App/NotFound/NotFoundController.js ***!
   \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nfunction HomeView(_ref) {\n    var renderService = _ref.renderService;\n\n\n    function render() {\n        renderService.render({ content: \"Not found\" });\n    }\n\n    return {\n        render: render\n    };\n}\n\nmodule.exports = HomeView;\n\n//# sourceURL=webpack:///./src/App/NotFound/Views/NotFoundView.js?");
+eval("\n\nfunction NotFoundController(_ref) {\n    var view = _ref.view;\n\n\n    function execute() {\n        view.render();\n    }\n\n    return {\n        execute: execute\n    };\n}\n\nmodule.exports = NotFoundController;\n\n//# sourceURL=webpack:///./src/App/NotFound/NotFoundController.js?");
+
+/***/ }),
+
+/***/ "./src/App/NotFound/NotFoundView.js":
+/*!******************************************!*\
+  !*** ./src/App/NotFound/NotFoundView.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nfunction HomeView(_ref) {\n    var renderService = _ref.renderService;\n\n\n    function render() {\n        renderService.render({ content: \"Not found\" });\n    }\n\n    return {\n        render: render\n    };\n}\n\nmodule.exports = HomeView;\n\n//# sourceURL=webpack:///./src/App/NotFound/NotFoundView.js?");
 
 /***/ }),
 
@@ -419,7 +419,7 @@ eval("\n\nfunction HomeView(_ref) {\n    var renderService = _ref.renderService;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nvar _page = __webpack_require__(/*! page */ \"./node_modules/page/page.js\");\n\nvar _page2 = _interopRequireDefault(_page);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nfunction Router() {\n\n    function registerRoute(_ref) {\n        var route = _ref.route,\n            resolver = _ref.resolver;\n\n        (0, _page2.default)(route, resolver);\n    }\n\n    function finish() {\n        (0, _page2.default)();\n    }\n\n    return {\n        registerRoute: registerRoute,\n        finish: finish\n    };\n}\n\nmodule.exports = Router;\n\n//# sourceURL=webpack:///./src/App/Router/Router.js?");
+eval("\n\nvar _page = __webpack_require__(/*! page */ \"./node_modules/page/page.js\");\n\nvar _page2 = _interopRequireDefault(_page);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nfunction Router() {\n\n    function registerRoute(_ref) {\n        var route = _ref.route,\n            resolver = _ref.resolver;\n\n        (0, _page2.default)(route, resolver);\n    }\n\n    function finish() {\n        (0, _page2.default)({ hashbang: true });\n    }\n\n    return {\n        registerRoute: registerRoute,\n        finish: finish\n    };\n}\n\nmodule.exports = Router;\n\n//# sourceURL=webpack:///./src/App/Router/Router.js?");
 
 /***/ }),
 
@@ -467,7 +467,7 @@ eval("\n\nfunction FileReaderService() {\n\n    function read(_ref) {\n        v
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nvar _reactDom = __webpack_require__(/*! react-dom */ \"./node_modules/react-dom/index.js\");\n\nvar _reactDom2 = _interopRequireDefault(_reactDom);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nfunction RenderService() {\n\n    var APP_CONTAINER = \"app\";\n\n    function render(_ref) {\n        var content = _ref.content;\n\n        document.getElementById(APP_CONTAINER).innerHTML = content;\n    }\n\n    function reactRender(_ref2) {\n        var component = _ref2.component;\n\n        _reactDom2.default.render(component, document.getElementById(APP_CONTAINER));\n    }\n\n    return {\n        render: render,\n        reactRender: reactRender\n    };\n}\n\nmodule.exports = RenderService;\n\n//# sourceURL=webpack:///./src/App/Services/RenderService.js?");
+eval("\n\nvar _reactDom = __webpack_require__(/*! react-dom */ \"./node_modules/react-dom/index.js\");\n\nvar _reactDom2 = _interopRequireDefault(_reactDom);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nfunction RenderService() {\n\n    var APP_CONTAINER_ID = \"app\";\n\n    function render(_ref) {\n        var content = _ref.content;\n\n        var appContainer = document.getElementById(APP_CONTAINER_ID);\n        _reactDom2.default.unmountComponentAtNode(appContainer);\n        appContainer.innerHTML = content;\n    }\n\n    function reactRender(_ref2) {\n        var component = _ref2.component;\n\n        _reactDom2.default.render(component, document.getElementById(APP_CONTAINER_ID));\n    }\n\n    return {\n        render: render,\n        reactRender: reactRender\n    };\n}\n\nmodule.exports = RenderService;\n\n//# sourceURL=webpack:///./src/App/Services/RenderService.js?");
 
 /***/ }),
 
