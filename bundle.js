@@ -386,6 +386,90 @@ eval("\n\nvar _createClass = function () { function defineProperties(target, pro
 
 /***/ }),
 
+/***/ "./src/App/Library/Factory.js":
+/*!************************************!*\
+  !*** ./src/App/Library/Factory.js ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});\nexports.createLibraryController = undefined;\n\nvar _LibraryController = __webpack_require__(/*! ./LibraryController */ \"./src/App/Library/LibraryController.js\");\n\nvar _LibraryController2 = _interopRequireDefault(_LibraryController);\n\nvar _LibraryView = __webpack_require__(/*! ./LibraryView */ \"./src/App/Library/LibraryView.js\");\n\nvar _LibraryView2 = _interopRequireDefault(_LibraryView);\n\nvar _LibraryRepository = __webpack_require__(/*! ./LibraryRepository */ \"./src/App/Library/LibraryRepository.js\");\n\nvar _LibraryRepository2 = _interopRequireDefault(_LibraryRepository);\n\nvar _BoardRepository = __webpack_require__(/*! ./Repositories/BoardRepository */ \"./src/App/Library/Repositories/BoardRepository.js\");\n\nvar _BoardRepository2 = _interopRequireDefault(_BoardRepository);\n\nvar _ListRepository = __webpack_require__(/*! ./Repositories/ListRepository */ \"./src/App/Library/Repositories/ListRepository.js\");\n\nvar _ListRepository2 = _interopRequireDefault(_ListRepository);\n\nvar _CardRepository = __webpack_require__(/*! ./Repositories/CardRepository */ \"./src/App/Library/Repositories/CardRepository.js\");\n\nvar _CardRepository2 = _interopRequireDefault(_CardRepository);\n\nvar _AjaxClientService = __webpack_require__(/*! ../Services/AjaxClientService */ \"./src/App/Services/AjaxClientService.js\");\n\nvar _AjaxClientService2 = _interopRequireDefault(_AjaxClientService);\n\nvar _RenderService = __webpack_require__(/*! ../Services/RenderService */ \"./src/App/Services/RenderService.js\");\n\nvar _RenderService2 = _interopRequireDefault(_RenderService);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar createLibraryController = exports.createLibraryController = function createLibraryController() {\n    return (0, _LibraryController2.default)({\n        view: (0, _LibraryView2.default)({ renderService: (0, _RenderService2.default)() }),\n        libraryRepository: (0, _LibraryRepository2.default)({\n            boardRepository: (0, _BoardRepository2.default)({ ajaxClientRepository: (0, _AjaxClientService2.default)() }),\n            listRepository: (0, _ListRepository2.default)({ ajaxClientRepository: (0, _AjaxClientService2.default)() }),\n            cardRepository: (0, _CardRepository2.default)({ ajaxClientRepository: (0, _AjaxClientService2.default)() })\n        })\n    });\n};\n\n//# sourceURL=webpack:///./src/App/Library/Factory.js?");
+
+/***/ }),
+
+/***/ "./src/App/Library/LibraryController.js":
+/*!**********************************************!*\
+  !*** ./src/App/Library/LibraryController.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nfunction LibraryController(_ref) {\n    var view = _ref.view,\n        libraryRepository = _ref.libraryRepository;\n\n\n    return {\n        execute: execute\n    };\n\n    async function execute() {\n        var library = await libraryRepository.getAll();\n        library.length > 0 ? view.renderLibrary({ library: library }) : view.renderEmptyLibrary();\n    }\n}\n\nmodule.exports = LibraryController;\n\n//# sourceURL=webpack:///./src/App/Library/LibraryController.js?");
+
+/***/ }),
+
+/***/ "./src/App/Library/LibraryRepository.js":
+/*!**********************************************!*\
+  !*** ./src/App/Library/LibraryRepository.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nfunction LibraryRepository(_ref) {\n    var boardRepository = _ref.boardRepository,\n        listRepository = _ref.listRepository,\n        cardRepository = _ref.cardRepository;\n\n\n    return {\n        getAll: getAll\n    };\n\n    async function getAll() {\n        var libraryBoardId = await boardRepository.getLibraryBoardId();\n        var libraryLists = await listRepository.getListsBy({\n            boardId: libraryBoardId\n        });\n        return libraryLists ? await BuildLibraryFrom({ lists: libraryLists }) : [];\n\n        function BuildLibraryFrom(_ref2) {\n            var lists = _ref2.lists;\n\n            var library = [];\n            lists.forEach(async function (list) {\n                var cards = await cardRepository.getCardsBy({ listId: list.id });\n                library.push({ bookcase: list.name, books: cards });\n            });\n            return library;\n        }\n    }\n}\n\nmodule.exports = LibraryRepository;\n\n//# sourceURL=webpack:///./src/App/Library/LibraryRepository.js?");
+
+/***/ }),
+
+/***/ "./src/App/Library/LibraryView.js":
+/*!****************************************!*\
+  !*** ./src/App/Library/LibraryView.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nfunction LibraryView(_ref) {\n    var renderService = _ref.renderService;\n\n\n    var TRELLO_LINK_MARKUP = \"<a href=\\\"https://trello.com/b/IeYtjCoV\\\" target=\\\"_blank\\\">Trello</a></p>\";\n\n    function renderLibrary(_ref2) {\n        var library = _ref2.library;\n\n        var markup = \"\\n        <div>\\n            <p>Tambien puedes ver la lista de libros en \" + TRELLO_LINK_MARKUP + \"</p>\\n        </div>\";\n        library.forEach(function (lib) {\n            markup += \"\\n                <div>\\n                    <h2>\" + lib.bookcase + \"</h2>\\n                    <ul>\\n                        \" + lib.books.map(function (book) {\n                return \"<li>\" + book + \"</li>\";\n            }) + \"\\n                    </ul>    \\n                </div>\";\n        });\n        renderService.render({ content: markup });\n    }\n\n    function renderEmptyLibrary() {\n        var markup = \"\\n            <div>\\n                <h2>Hubo un problema, \\n                si quieres puedes ver directamente la lista de libros en \" + TRELLO_LINK_MARKUP + \"</h2>\\n            </div>\\n        \";\n        renderService.render({ content: markup });\n    }\n\n    return {\n        renderLibrary: renderLibrary,\n        renderEmptyLibrary: renderEmptyLibrary\n    };\n}\n\nmodule.exports = LibraryView;\n\n//# sourceURL=webpack:///./src/App/Library/LibraryView.js?");
+
+/***/ }),
+
+/***/ "./src/App/Library/Repositories/BoardRepository.js":
+/*!*********************************************************!*\
+  !*** ./src/App/Library/Repositories/BoardRepository.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nfunction BoardRepository(_ref) {\n    var ajaxClientRepository = _ref.ajaxClientRepository;\n\n\n    return {\n        getLibraryBoardId: getLibraryBoardId\n    };\n\n    async function getLibraryBoardId() {\n        var serializedBoard = await ajaxClientRepository.get({\n            url: \"https://api.trello.com/1/members/me/boards?key=08a27147750faeb03030d310b919258c&token=4439c681d1629b22c8c14a8f80052c9b950cf524e10b7c8d83a9a38150982eca\"\n        });\n        var board = JSON.parse(serializedBoard);\n        return board[0].id;\n    }\n}\n\nmodule.exports = BoardRepository;\n\n//# sourceURL=webpack:///./src/App/Library/Repositories/BoardRepository.js?");
+
+/***/ }),
+
+/***/ "./src/App/Library/Repositories/CardRepository.js":
+/*!********************************************************!*\
+  !*** ./src/App/Library/Repositories/CardRepository.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nfunction CardRepository(_ref) {\n    var ajaxClientRepository = _ref.ajaxClientRepository;\n\n\n    return {\n        getCardsBy: getCardsBy\n    };\n\n    async function getCardsBy(_ref2) {\n        var listId = _ref2.listId;\n\n        var serializedCards = await ajaxClientRepository.get({\n            url: \"https://api.trello.com/1/lists/\" + listId + \"/cards?fields=name&key=08a27147750faeb03030d310b919258c&token=4439c681d1629b22c8c14a8f80052c9b950cf524e10b7c8d83a9a38150982eca\"\n        });\n        var cards = JSON.parse(serializedCards);\n        return cards.map(function (card) {\n            return card.name;\n        });\n    }\n}\n\nmodule.exports = CardRepository;\n\n//# sourceURL=webpack:///./src/App/Library/Repositories/CardRepository.js?");
+
+/***/ }),
+
+/***/ "./src/App/Library/Repositories/ListRepository.js":
+/*!********************************************************!*\
+  !*** ./src/App/Library/Repositories/ListRepository.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nfunction ListRepository(_ref) {\n    var ajaxClientRepository = _ref.ajaxClientRepository;\n\n\n    return {\n        getListsBy: getListsBy\n    };\n\n    async function getListsBy(_ref2) {\n        var boardId = _ref2.boardId;\n\n        var serializedLists = await ajaxClientRepository.get({\n            url: \"https://api.trello.com/1/boards/\" + boardId + \"/?fields=name&lists=all&list_fields=id,name&key=08a27147750faeb03030d310b919258c&token=4439c681d1629b22c8c14a8f80052c9b950cf524e10b7c8d83a9a38150982eca\"\n        });\n        var lists = JSON.parse(serializedLists);\n        return lists.lists;\n    }\n}\n\nmodule.exports = ListRepository;\n\n//# sourceURL=webpack:///./src/App/Library/Repositories/ListRepository.js?");
+
+/***/ }),
+
 /***/ "./src/App/NotFound/Factory.js":
 /*!*************************************!*\
   !*** ./src/App/NotFound/Factory.js ***!
@@ -526,7 +610,19 @@ eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nvar _Factory = __webpack_require__(/*! ../Home/Factory */ \"./src/App/Home/Factory.js\");\n\nvar HomeFactory = _interopRequireWildcard(_Factory);\n\nvar _Factory2 = __webpack_require__(/*! ../NotFound/Factory */ \"./src/App/NotFound/Factory.js\");\n\nvar NotFoundFactory = _interopRequireWildcard(_Factory2);\n\nvar _Factory3 = __webpack_require__(/*! ../Article/Factory */ \"./src/App/Article/Factory.js\");\n\nvar ArticleFactory = _interopRequireWildcard(_Factory3);\n\nfunction _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }\n\nfunction RoutesResolver(_ref) {\n    var router = _ref.router;\n\n\n    var homeController = HomeFactory.createHomeController();\n    var notFoundController = NotFoundFactory.createNotFoundController();\n    var articleController = ArticleFactory.createArticleController();\n\n    function init() {\n        router.registerRoute({ route: \"/\", resolver: homeController.execute });\n        router.registerRoute({ route: \"/:year/:month/:day/:articleName\", resolver: articleController.execute });\n        router.registerRoute({ route: \"*\", resolver: notFoundController.execute });\n        router.finish();\n    }\n\n    return {\n        init: init\n    };\n}\n\nmodule.exports = RoutesResolver;\n\n//# sourceURL=webpack:///./src/App/Router/RoutesResolver.js?");
+eval("\n\nvar _Factory = __webpack_require__(/*! ../Home/Factory */ \"./src/App/Home/Factory.js\");\n\nvar HomeFactory = _interopRequireWildcard(_Factory);\n\nvar _Factory2 = __webpack_require__(/*! ../NotFound/Factory */ \"./src/App/NotFound/Factory.js\");\n\nvar NotFoundFactory = _interopRequireWildcard(_Factory2);\n\nvar _Factory3 = __webpack_require__(/*! ../Article/Factory */ \"./src/App/Article/Factory.js\");\n\nvar ArticleFactory = _interopRequireWildcard(_Factory3);\n\nvar _Factory4 = __webpack_require__(/*! ../Library/Factory */ \"./src/App/Library/Factory.js\");\n\nvar LibraryFactory = _interopRequireWildcard(_Factory4);\n\nfunction _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }\n\nfunction RoutesResolver(_ref) {\n    var router = _ref.router;\n\n\n    var homeController = HomeFactory.createHomeController();\n    var notFoundController = NotFoundFactory.createNotFoundController();\n    var articleController = ArticleFactory.createArticleController();\n    var libraryController = LibraryFactory.createLibraryController();\n\n    function init() {\n        router.registerRoute({ route: \"/\", resolver: homeController.execute });\n        router.registerRoute({ route: \"/:year/:month/:day/:articleName\", resolver: articleController.execute });\n        router.registerRoute({ route: \"/library\", resolver: libraryController.execute });\n        router.registerRoute({ route: \"*\", resolver: notFoundController.execute });\n        router.finish();\n    }\n\n    return {\n        init: init\n    };\n}\n\nmodule.exports = RoutesResolver;\n\n//# sourceURL=webpack:///./src/App/Router/RoutesResolver.js?");
+
+/***/ }),
+
+/***/ "./src/App/Services/AjaxClientService.js":
+/*!***********************************************!*\
+  !*** ./src/App/Services/AjaxClientService.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nfunction AjaxClientService() {\n\n    return {\n        get: get\n    };\n\n    function get(_ref) {\n        var url = _ref.url;\n\n        return new Promise(function (resolve, reject) {\n            var xmlHttp = new XMLHttpRequest();\n            xmlHttp.open(\"GET\", url, false);\n            xmlHttp.onreadystatechange = onReadyStateChangeHandler;\n            xmlHttp.send();\n\n            function onReadyStateChangeHandler() {\n                if (xmlHttp.readyState === 4) {\n                    if (xmlHttp.status === 200 || xmlHttp.status === 0) {\n                        return resolve(xmlHttp.responseText);\n                    }\n                }\n                return reject();\n            }\n        });\n    }\n}\n\nmodule.exports = AjaxClientService;\n\n//# sourceURL=webpack:///./src/App/Services/AjaxClientService.js?");
 
 /***/ }),
 
@@ -562,7 +658,7 @@ eval("\n\nvar _reactDom = __webpack_require__(/*! react-dom */ \"./node_modules/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("/* WEBPACK VAR INJECTION */(function(__dirname) {\n\nvar path = __webpack_require__(/*! path */ \"./node_modules/path-browserify/index.js\");\nvar articles = [{\n    name: \"El esquema de datos MySQL aplicado a las inyecciones SQL.\",\n    description: \"El esquma de datos de MySQL y como podemos sacar partido de el para conocer posibles bases de datos, tablas y campos que existan dentro del gestor de base de datos.\",\n    date: \"03/09/2019\",\n    htmlFileName: \"esquema-bd-sql-injection.html\",\n    author: \"Antonio Sánchez\",\n    route: \"2018/10/05/esquema-bd-sql-injection\",\n    markdownFilePath: path.join(__dirname, \"esquema-bd-sql-injection.md\")\n}, {\n    name: \"Patrón Modelo-Vista-Presentador con vista pasiva.\",\n    description: \"Una derivación del patrón arquitectónico MVC, y es utilizado mayoritariamente para construir interfaces de usuario.\",\n    date: \"05/10/2018\",\n    htmlFileName: \"patron-mvp.html\",\n    author: \"Antonio Sánchez\",\n    route: \"2018/10/05/patron-mvp\",\n    markdownFilePath: path.join(__dirname, \"patron-mvp.md\")\n}, {\n    name: \"Patrón Command.\",\n    description: \"Un patrón de comportamiento en el que un objeto se utiliza para encapsular toda la información necesaria para realizar una acción.\",\n    date: \"05/08/2018\",\n    author: \"Antonio Sánchez\",\n    route: \"2018/08/05/patron-command\",\n    htmlFileName: \"patron-command.html\",\n    markdownFilePath: path.join(__dirname, \"patron-command.md\")\n}, {\n    name: \"Implementando nuestro propio motor de reglas — Java.\",\n    description: \"Introducción a un simple motor de reglas y como podemos implementar uno en java.\",\n    date: \"25/10/2017\",\n    author: \"Antonio Sánchez\",\n    route: \"2017/10/25/implementando-motor-de-reglas\",\n    htmlFileName: \"implementando-motor-de-reglas.html\",\n    markdownFilePath: path.join(__dirname, \"implementando-motor-de-reglas.md\")\n}];\n\nmodule.exports = articles;\n/* WEBPACK VAR INJECTION */}.call(this, \"/\"))\n\n//# sourceURL=webpack:///./src/Articles/articles.js?");
+eval("/* WEBPACK VAR INJECTION */(function(__dirname) {\n\nvar path = __webpack_require__(/*! path */ \"./node_modules/path-browserify/index.js\");\nvar articles = [{\n    name: \"El esquema de datos MySQL aplicado a las inyecciones SQL.\",\n    description: \"El esquema de datos de MySQL y como podemos sacar partido de el para conocer posibles bases de datos, tablas y campos que existan dentro del gestor de base de datos.\",\n    date: \"09/03/2019\",\n    htmlFileName: \"esquema-bd-sql-injection.html\",\n    author: \"Antonio Sánchez\",\n    route: \"2019/03/09/esquema-bd-sql-injection\",\n    markdownFilePath: path.join(__dirname, \"esquema-bd-sql-injection.md\")\n}, {\n    name: \"Patrón Modelo-Vista-Presentador con vista pasiva.\",\n    description: \"Una derivación del patrón arquitectónico MVC, y es utilizado mayoritariamente para construir interfaces de usuario.\",\n    date: \"05/10/2018\",\n    htmlFileName: \"patron-mvp.html\",\n    author: \"Antonio Sánchez\",\n    route: \"2018/10/05/patron-mvp\",\n    markdownFilePath: path.join(__dirname, \"patron-mvp.md\")\n}, {\n    name: \"Patrón Command.\",\n    description: \"Un patrón de comportamiento en el que un objeto se utiliza para encapsular toda la información necesaria para realizar una acción.\",\n    date: \"05/08/2018\",\n    author: \"Antonio Sánchez\",\n    route: \"2018/08/05/patron-command\",\n    htmlFileName: \"patron-command.html\",\n    markdownFilePath: path.join(__dirname, \"patron-command.md\")\n}, {\n    name: \"Implementando nuestro propio motor de reglas — Java.\",\n    description: \"Introducción a un simple motor de reglas y como podemos implementar uno en java.\",\n    date: \"25/10/2017\",\n    author: \"Antonio Sánchez\",\n    route: \"2017/10/25/implementando-motor-de-reglas\",\n    htmlFileName: \"implementando-motor-de-reglas.html\",\n    markdownFilePath: path.join(__dirname, \"implementando-motor-de-reglas.md\")\n}];\n\nmodule.exports = articles;\n/* WEBPACK VAR INJECTION */}.call(this, \"/\"))\n\n//# sourceURL=webpack:///./src/Articles/articles.js?");
 
 /***/ })
 
