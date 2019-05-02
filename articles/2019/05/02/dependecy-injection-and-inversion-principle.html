@@ -1,0 +1,105 @@
+<h2 class='article-title'>Inyección de dependencias + Principio de inversión de dependencias.</h2>
+<p class='article-paragraph'>Cuando empezamos a preocuparnos por la arquitectura o la <a href="https://www.globetesting.com/glosario/testabilidad/">testabilidad</a> de nuestras aplicaciones es obligatorio conocer los principios SOLID.</p>
+<p class='article-paragraph'>En este artículo quiero hablar de la letra ‘D’ de SOLID, que se conoce como el <strong>principio de inversión de dependencias</strong> o <strong>dependency inversion principle</strong> en inglés y cómo en combinación con la inyección de dependencias podemos pasar de un código altamente acoplado y con poca facilidad de testear a un código desacoplado y altamente testable.</p>
+<p class='article-paragraph'>Bajo mi punto de vista este es el principio SOLID que más valor aporta desde que lo conocemos por primera vez hasta que lo ponemos en práctica, ya que es muy sencillo de aprender e interiorizar.</p>
+<p class='article-paragraph'>El principio dice lo siguiente:</p>
+<p class='article-paragraph'><em>Debemos depender de abstracciones y no de dependencias concretas.</em></p>
+<p class='article-paragraph'>Cuando leemos esto por primera vez puede que nos quedemos igual que al principio, por lo menos fue la sensación que yo tuve. Por esta razón a continuación vamos a ver porque es un problema depender directamente de implementaciones concretas y que beneficios nos aporta depender de abstracciones.</p>
+<h3 class='article-subtitle'>El problema.</h3>
+<p class='article-paragraph'>Para explicar el principio de inversión de dependencias vamos a imaginar que hemos implementado una característica en nuestro sistema para registrar a un usuario y la implementación de la clase que tiene la responsabilidad de dicho registro quedó así.</p>
+<p class='article-paragraph'>Todos los ejemplos expuestos en este artículo están escritos en C# pero el lenguaje de programación es completamente agnóstico en este caso.</p>
+<pre class='article-code'><code class="typescript language-typescript">public class UserSignUpUseCase
+{
+   private readonly MySqlUserRepository userRepository;
+
+   public  UserSignUpUseCase()
+   {
+       userRepository = new MySqlUserRepository();
+   }
+
+   public User Execute(UserSignUpRequest request)
+   {
+       var user = new User(
+           email: request.Email, 
+           password: request.Password
+       );
+       return userRepository.Save(user);
+   }
+}</code></pre>
+<p class='article-paragraph'>Como podemos ver es una implementación super solida y segura (nótese la ironía), pero para nuestro propósito es más que suficiente.</p>
+<p class='article-paragraph'>A primera vista podríamos decir que esta todo correcto, tenemos una clase llamada <em>UserSignUpUseCase</em> que instancia en su constructor un repositorio de usuario implementado en MySql llamado <em>MySqlUserRepository</em>. Tiene un único método público que se encarga de crear al usuario y guardarlo en nuestro de sistema de persistencia.</p>
+<p class='article-paragraph'>Actualmente el diagrama de dependencias entre clases es el siguiente:</p>
+<p class='article-paragraph'><img src="./images/dip-1.png" alt="Diagrama clases acopladas" /></p>
+<p class='article-paragraph'>La flecha continua indica una dependencia directa entre clases.</p>
+<p class='article-paragraph'>Pues bien, aquí tenemos un grave error. Cuando hablamos antes de <strong>depender de implementaciones concretas</strong> nos estamos refiriendo a esto mismo, estamos instanciando nuestro repositorio MySql de usuarios en el constructor de nuestra clase.</p>
+<p class='article-paragraph'>Los dos grandes problemas que esto nos trae son los siguientes:</p>
+<p class='article-paragraph'><strong>Un cambio de sistema de persistencia implica un cambio muy costoso.</strong></p>
+<p class='article-paragraph'>Si en un futuro no queremos seguir persistiendo nuestros usuarios en una base de datos MySql y queremos cambiar a una base de datos no relacional como MongoDB estamos jodidos. Estamos jodidos porque deberemos de implementar el repositorio de usuario en MongoDB (el supuesto <em>MongoUserRepository</em>) siguiendo la firma del repositorio de MySql que usa actualmente la clase <em>UserSignUpUseCase</em>, de lo contrario vamos a tener que estar cambiando todas las partes del código donde queramos dar el cambio.</p>
+<p class='article-paragraph'>Como adición a esto, vamos a tener que ir reemplazando el repositorio antiguo por el nuevo en todos los archivos donde el antiguo se utilice, imagina tener que hacer esto con más de cien usos del repositorio de usuarios.</p>
+<p class='article-paragraph'><strong>No podemos crear test unitarios de la clase <em>UserSignUpUseCase</em></strong></p>
+<p class='article-paragraph'>Esto es un problema bastante grande que nos surge por el acoplamiento que tenemos entre las clases.</p>
+<p class='article-paragraph'>Los test unitarios deberían de ser la base la cobertura de test en nuestro sistema, pero a esta clase no le podemos crear su test unitario. Sencillamente porque estamos instanciando directamente el repositorio de verdad en el constructor quedándonos sin la posibilidad de crear un doble de prueba del repositorio para falsear sus respuestas.</p>
+<h3 class='article-subtitle'>La solución.</h3>
+<p class='article-paragraph'>Bueno pues la solución al problema se divide en dos acciones, la primera es como dice el principio depender de una abstracción y no de una implementación concreta, y la segunda la inyección de dependencias.</p>
+<p class='article-paragraph'>La inyección de dependencias consiste simplemente en pasar las dependencias de la clase (el repositorio de usuarios) como parámetro en el constructor y no hacer la instancia dentro de él.</p>
+<p class='article-paragraph'>Es tan sencillo como suena, la clase quedaría de la siguiente forma:</p>
+<pre class='article-code'><code class="typescript language-typescript">private readonly MySqlUserRepository userRepository;
+
+public  UserSignUpUseCase(MySqlUserRepository userRepository)
+{
+   this.userRepository = userRepository;
+}</code></pre>
+<p class='article-paragraph'>¡Hey, ya podemos testear!</p>
+<p class='article-paragraph'>Cierto, al <strong>inyectar la dependencia</strong> podemos crear nuestros test unitarios sobre la clase <em>UserSignUpUseCase</em> ya que tenemos la posibilidad de pasarle el doble de prueba del repositorio por el constructor en el momento en el que lo instanciamos.</p>
+<p class='article-paragraph'>El uso de la clase quedaría de la siguiente forma:</p>
+<pre class='article-code'><code class="typescript language-typescript">public static class Factory
+{
+   public static UserSignUpUseCase UserSignUpUseCase()
+   {
+       var userRepository = new MySqlUserRepository();
+       return new UserSignUpUseCase(userRepository);
+   }
+}</code></pre>
+<p class='article-paragraph'>Como pueden ver hemos aplicado el patrón factoría para crear la instancia de la clase, esto es otra buena práctica.</p>
+<p class='article-paragraph'>Pero bueno todo esto está muy bien, ya podemos testear, pero aun seguimos con el primero problema. Cambiar de sistema de persistencia es una tarea costosa.</p>
+<p class='article-paragraph'>Bien, aquí entra en juego el principio de inversión de dependencias donde ya hemos visto que estamos dependiendo de una implementación concreta (nuestro <em>MySqlUserRepository</em>)</p>
+<p class='article-paragraph'>y lo que necesitamos es depender de una <a href="https://es.wikipedia.org/wiki/Abstracci%C3%B3n_%28inform%C3%A1tica%29">abstracción</a>, pero, ¿que es una abstracción?</p>
+<p class='article-paragraph'>Segun nuestra buena amiga wikipedia, una abstracción se refiere al énfasis en el “¿qué hace?” más que en el “¿cómo lo hace?”. Es decir, no nos interesa <strong>la implementación concreta</strong>, no nos interesa la clase <em>MySqlUserRepository</em> porque <strong>es la clase que sabe como se hacen las cosas</strong>.</p>
+<p class='article-paragraph'>Nos interesa depender de algo que nos diga qué tenemos que hacer si queremos guardar a un usuario pero no nos diga cómo lo hacemos, aquí entran en juego <strong>las interfaces</strong>.</p>
+<p class='article-paragraph'>Una interfaz no es más que un contrato que establecemos entre la clase que utiliza la interfaz y la que la implementa, obligando a ambas partes a cumplir una firma y no poder corromperla.</p>
+<p class='article-paragraph'>Por lo que una vez creada nuestra nuestra interfaz y adaptando ambas partes para que la usen el código luce así.</p>
+<p class='article-paragraph'>Nuestra interfaz:</p>
+<pre class='article-code'><code class="typescript language-typescript">public interface UserRepository
+{
+  User Save(User user);
+}</code></pre>
+<p class='article-paragraph'>Nuestro repositorio MySql:</p>
+<pre class='article-code'><code class="typescript language-typescript">public class MySqlUserRepository : UserRepository
+{
+   public User Save(User user)
+   {
+       //implementation
+       return null;
+   }
+}</code></pre>
+<p class='article-paragraph'>Nuestra clase <em>UserSignUpUseCase</em>:</p>
+<pre class='article-code'><code class="typescript language-typescript">private readonly UserRepository userRepository;
+
+public  UserSignUpUseCase(UserRepository userRepository){
+   this.userRepository = userRepository;
+}</code></pre>
+<p class='article-paragraph'>Con este simple paso, hemos empezado a depender de una abstracción.</p>
+<p class='article-paragraph'>Vemos el diagrama de dependencias en este momento:</p>
+<p class='article-paragraph'><img src="./images/dip-2.png" alt="Diagrama clases no acompladas" /></p>
+<p class='article-paragraph'>La dependencia directa ahora es con la interfaz que representa nuestro contrato y no con la implementación concreta. Por lo que podríamos tener N implementaciones de repositorios de usuario y cambiarlas en la factoría de la clase UserSignUpCase sin ningún coste y sin romper nada.</p>
+<p class='article-paragraph'><img src="./images/dip-3.png" alt="Diagrama clases no acompladas" /></p>
+<p class='article-paragraph'>Con estos simples pasos hemos pasado de un código altamente acoplado y con poca testablidad a un código fácil de cambiar y complementamente testable.</p>
+<p class='article-paragraph'>Si te ha gustado el articulo o tienes alguna recomendación que te gustaría compartir conmigo puedes encontrarme en twitter, el feedback siempre es bienvenido.</p>
+<p class='article-paragraph'>Gracias por leer, un saludo.</p>
+<p class='article-paragraph'>Referencias:</p>
+<ul>
+<li>Libro Clean Architecture de Robert C. Martin.</li>
+<li><a href="https://codely.tv/blog/screencasts/solid-principio-inversion-dependencias/">Principio de inversión de dependecias, CodelyTv</a></li>
+<li><a href="https://es.wikipedia.org/wiki/Abstracci%C3%B3n_%28inform%C3%A1tica%29">Wikipedia</a></li>
+<li><a href="https://www.globetesting.com/glosario/testabilidad/">https://www.globetesting.com/glosario/testabilidad/ </a></li>
+</ul>
