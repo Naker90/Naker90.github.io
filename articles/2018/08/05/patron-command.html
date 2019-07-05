@@ -8,7 +8,7 @@
 <p class='article-paragraph'>Los actores son:</p>
 <p class='article-paragraph'><strong>La orden</strong>: es la petición de la acción encapsulada en un objeto, a nivel de código será un DTO con los setters privados. En él podríamos hacer validaciones a los campos con los que va a trabajar el manejador de la orden, como por ejemplo comprobar si el comentario de la foto no está vacío. Esto lo podemos hacer estableciendo el constructor como privado y creando un método estático que nos retorna la instancia del objeto después de hacer las validaciones.</p>
 <p class='article-paragraph'>Si imaginamos la orden para la funcionalidad de guardar un comentario podría ser a</p>
-<pre class='article-code'><code>public class SaveCommentaryCommnad
+<pre><code class="csharp language-csharp">public class SaveCommentaryCommnad
 {
   public int UserId { get; private set; }
   public int PictureId { get; private set; }
@@ -49,7 +49,7 @@
 <p class='article-paragraph'>De esta forma dependemos de abstracciones y no de implementaciones, si en un futuro queremos cambiar de sistema de persistencia simplemente tendríamos que implementar un nuevo repositorio cumpliendo la interfaz que ya tenemos y reemplazarla en el manejador.</p>
 <p class='article-paragraph'>Todos los manejadores que tengamos deberían de mostrar la misma API, estos sólo deberían de tener un único método público que deberían de llamarse todos igual por simetría, ejemplo: ‘Execute’, ‘Invoke’, ‘Do’. Esto es algo que debería de quedar reflejado en un estándar para el equipo de desarrollo.</p>
 <p class='article-paragraph'>Así quedaría a nivel de código el manejador de la orden para el ejemplo de la funcionalidad anterior:</p>
-<pre class='article-code'><code>public class SaveCommentaryHandler
+<pre><code class="csharp language-csharp">public class SaveCommentaryHandler
 {
  private readonly UserRepository userRepository;
  private readonly CommentaryRepository commentaryRepository;
@@ -81,7 +81,7 @@
 <p class='article-paragraph'>Para que el invocador no conozca el manejador que está asociado a una orden se puede utilizar un ‘Command bus’. Técnica al que tengo pensado dedicarle un post más adelante.</p>
 <p class='article-paragraph'>Para el ejemplo actual no simulare estar utilIzando un bus de comando y haré que el invocador conozca al manejador que tiene que ejecutar.</p>
 <p class='article-paragraph'>En código un controlador quedaría de esta manera:</p>
-<pre class='article-code'><code>public class SaveCommentaryController : Controller
+<pre><code class="csharp language-csharp">public class SaveCommentaryController : Controller
 {
     private SaveCommentaryHandler saveCommentaryHandler;
 

