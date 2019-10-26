@@ -11,19 +11,19 @@
 <p class='article-paragraph'>Si podemos leer la salida del DBMS directamente la manera más sencilla de saberlo es preguntando por la versión, pero esto no funciona en todos los casos.</p>
 <p class='article-paragraph'>En el libro de “Hacking a aplicaciones web: Sql Injection” de Enrique Rando y Chema Alonso exponen una manera de hacerlo que me pareció muy divertida. La técnica es muy simple y se basa en inyectar expresiones propias de cada dialecto y comprobando cómo se comporta la aplicación.</p>
 <p class='article-paragraph'><strong>Escenario:</strong> nos encontramos frente a una aplicación vulnerable a SQLi donde podemos preguntar por un usuario en base a su identificador numérico.</p>
-<p class='article-paragraph'><img src="./images/1-sqli.png" alt="alt text" /></p>
+<p class='article-paragraph'><img class='article-img' src="./images/1-sqli.png" alt="alt text" /></p>
 <p class='article-paragraph'>En caso de introducir un identificador de usuario que no existe la aplicación no devuelve nada.</p>
-<p class='article-paragraph'><img src="./images/2-sqli.png" alt="alt text" /></p>
+<p class='article-paragraph'><img class='article-img' src="./images/2-sqli.png" alt="alt text" /></p>
 <p class='article-paragraph'>Bien, sabiendo esto podemos determinar que si inyectamos una condición booleana después de un identificador válido de usuario, si la condición es verdadera nos devolverá el usuario pero si es falsa no devolverá nada.</p>
 <p class='article-paragraph'>Consulta:</p>
 <pre><code class="sql language-sql">1’ AND 1 = 1;#</code></pre>
-<p class='article-paragraph'><img src="./images/3-sqli.png" alt="alt text" /></p>
+<p class='article-paragraph'><img class='article-img' src="./images/3-sqli.png" alt="alt text" /></p>
 <p class='article-paragraph'>Consulta:</p>
 <pre><code class="sql language-sql">1’ AND 1 = 2;#</code></pre>
-<p class='article-paragraph'><img src="./images/4-sqli.png" alt="alt text" /></p>
+<p class='article-paragraph'><img class='article-img' src="./images/4-sqli.png" alt="alt text" /></p>
 <p class='article-paragraph'>Ahora podemos usar expresiones del dialecto SQL para determinar el tipo de DBMS al que nos estamos enfrentando. Podemos usar los operadores y funciones de concatenación de cadenas.</p>
 <p class='article-paragraph'>La siguiente tabla la he extraído directamente del libro “Hacking a aplicaciones web: Sql Injection” ya que representa muy bien lo que quiero explicar.</p>
-<p class='article-paragraph'><img src="./images/15-sqli.png" alt="alt text" /></p>
+<p class='article-paragraph'><img class='article-img' src="./images/15-sqli.png" alt="alt text" /></p>
 <p class='article-paragraph'>Por lo que:</p>
 <ul>
 <li>Si soporta el operador ‘+’ para la concatenación de cadenas, es SQL Server.</li>
@@ -34,10 +34,10 @@
 </ul>
 <p class='article-paragraph'>Consulta:</p>
 <pre><code class="sql language-sql">1’ AND ‘a’||’b’ LIKE ‘ab’;#</code></pre>
-<p class='article-paragraph'><img src="./images/5-sqli.png" alt="alt text" /></p>
+<p class='article-paragraph'><img class='article-img' src="./images/5-sqli.png" alt="alt text" /></p>
 <p class='article-paragraph'>Consulta:</p>
 <pre><code class="sql language-sql">1’ AND concat(‘a’, ‘b’) LIKE ‘ab’;#</code></pre>
-<p class='article-paragraph'><img src="./images/6-sqli.png" alt="alt text" /></p>
+<p class='article-paragraph'><img class='article-img' src="./images/6-sqli.png" alt="alt text" /></p>
 <h3 class='article-subtitle'>Extrayendo información de INFORMATION_SCHEMA, el esquema de MySQL.</h3>
 <p class='article-paragraph'>INFORMATION_SCHEMA es el esquema de donde vamos a extraer la información que nos interesa. En realidad es una base de datos como tal que contiene vistas con permisos de solo lectura. La manera de realizar consultas es análoga a la forma en que lo hacemos con una BD normal.</p>
 <p class='article-paragraph'><em>SCHEMATA</em></p>
@@ -48,7 +48,7 @@
 <pre><code class="sql language-sql">-1’
 UNION SELECT schema_name, null
 FROM INFORMATION_SCHEMA.SCHEMATA;#</code></pre>
-<p class='article-paragraph'><img src="./images/7-SQLI.png" alt="alt text" /></p>
+<p class='article-paragraph'><img class='article-img' src="./images/7-SQLI.png" alt="alt text" /></p>
 <p class='article-paragraph'><em>TABLES.</em></p>
 <p class='article-paragraph'>El siguiente paso una vez sabemos las BBDD es conocer las tablas que estas BBDD contienen, a nosotros nos interesa la BD dvwa. Esta información se encuentra en la vista <em>INFORMATION_SCHEMA.TABLES</em> que está compuesta por muchas columnas de las cuales a nosotros solo nos interesan dos:</p>
 <p class='article-paragraph'>table<em>schema la cual relaciona la tabla con la BD a la que pertenece.
@@ -59,7 +59,7 @@ Mas informacion de las diferentes columnas: <a href="https://dev.mysql.com/doc/r
 UNION SELECT table_name, null
 FROM INFORMATION_SCHEMA.TABLES
 WHERE table_schema LIKE ‘dvwa’;#</code></pre>
-<p class='article-paragraph'><img src="./images/9-sqli.png" alt="alt text" /></p>
+<p class='article-paragraph'><img class='article-img' src="./images/9-sqli.png" alt="alt text" /></p>
 <p class='article-paragraph'><em>COLUMNS.</em></p>
 <p class='article-paragraph'>Ya tenemos el nombre de las tablas, ahora nos queda saber qué columnas existen en estas tablas. Para ello consultamos la tabla <em>INFORMATION_SCHEMA.COLUMNS</em> donde tenemos las siguientes columnas:</p>
 <ul>
@@ -74,13 +74,13 @@ WHERE table_schema LIKE ‘dvwa’;#</code></pre>
 UNION SELECT column_name, column_type
 FROM INFORMATION_SCHEMA.COLUMNS
 WHERE table_schema LIKE ‘dvwa’ AND table_name LIKE ‘users’;#</code></pre>
-<p class='article-paragraph'><img src="./images/10-sqli.png" alt="alt text" /></p>
+<p class='article-paragraph'><img class='article-img' src="./images/10-sqli.png" alt="alt text" /></p>
 <p class='article-paragraph'>Pues ya sabemos la tabla y sus columnas, una vez aquí ya podemos consultar, añadir, eliminar o modificar registros según los permisos que tenga el usuario con el que se realizan las consultas.</p>
 <p class='article-paragraph'>Consulta:</p>
 <pre><code class="sql language-sql">-1’
 UNION SELECT user, password
 FROM dvwa.users;#</code></pre>
-<p class='article-paragraph'><img src="./images/11-sqli.png" alt="alt text" /></p>
+<p class='article-paragraph'><img class='article-img' src="./images/11-sqli.png" alt="alt text" /></p>
 <p class='article-paragraph'>Fuentes.</p>
 <ul>
 <li>Libro “Hacking de aplicaciones web: SQL Injection” de Enrique Rando y Chema Alonso.</li>

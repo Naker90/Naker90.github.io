@@ -7,7 +7,7 @@
 </ul>
 <p class='article-paragraph'>Su principal ventaja bajo mi punto de vista es que aislamos la logia de nuestra aplicación de la vista, esto <strong>nos permite tener una cobertura de tests del cien por cien de nuestra lógica</strong>. Nuestra vista no tendrá nada de lógica y las únicas responsabilidades que tendrá será la presentación de los datos al usuario y notificar al presentador cuando ocurra un evento de entrada, como por ejemplo, el click de un botón.</p>
 <p class='article-paragraph'>Nuestra vista a nivel de responsabilidades tiene que ser tal que así.</p>
-<p class='article-paragraph'><img src="./images/mvp-1.jpeg" alt="alt text" title="Gato sentado en un sillón" /></p>
+<p class='article-paragraph'><img class='article-img' src="./images/mvp-1.jpeg" alt="alt text" title="Gato sentado en un sillón" /></p>
 <p class='article-paragraph'>También tenemos la posibilidad de poder utilizar diferentes tecnologías en nuestras vistas, al tener <strong>totalmente desacoplada la vista de la lógica de la aplicación</strong> tenemos total libertad de utilizar la tecnología que más nos convenga en cada momento. El único problema de esto es que <strong>capamos la tecnología</strong> ya que nos vemos obligados a implementarla de acuerdo a como funciona nuestro patrón.</p>
 <h3 class='article-subtitle'>¿Cómo funciona?</h3>
 <p class='article-paragraph'>Este patrón implementa el patrón <em>observer</em> para que la vista notifique al presentador de los eventos de entradas que ocurren en la aplicación. La vista expone funciones de suscripción que utiliza el presentador para pasarle los manejadores antes los posibles eventos de entrada. Esto puede sonar más complicado de lo que parece, veamos un ejemplo de código</p>

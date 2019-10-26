@@ -29,7 +29,7 @@
 <p class='article-paragraph'>Como podemos ver es una implementación super solida y segura (nótese la ironía), pero para nuestro propósito es más que suficiente.</p>
 <p class='article-paragraph'>A primera vista podríamos decir que esta todo correcto, tenemos una clase llamada <em>UserSignUpUseCase</em> que instancia en su constructor un repositorio de usuario implementado en MySql llamado <em>MySqlUserRepository</em>. Tiene un único método público que se encarga de crear al usuario y guardarlo en nuestro de sistema de persistencia.</p>
 <p class='article-paragraph'>Actualmente el diagrama de dependencias entre clases es el siguiente:</p>
-<p class='article-paragraph'><img src="./images/dip-1.png" alt="Diagrama clases acopladas" /></p>
+<p class='article-paragraph'><img class='article-img' src="./images/dip-1.png" alt="Diagrama clases acopladas" /></p>
 <p class='article-paragraph'>La flecha continua indica una dependencia directa entre clases.</p>
 <p class='article-paragraph'>Pues bien, aquí tenemos un grave error. Cuando hablamos antes de <strong>depender de implementaciones concretas</strong> nos estamos refiriendo a esto mismo, estamos instanciando nuestro repositorio MySql de usuarios en el constructor de nuestra clase.</p>
 <p class='article-paragraph'>Los dos grandes problemas que esto nos trae son los siguientes:</p>
@@ -90,9 +90,9 @@ public  UserSignUpUseCase(UserRepository userRepository){
 }</code></pre>
 <p class='article-paragraph'>Con este simple paso, hemos empezado a depender de una abstracción.</p>
 <p class='article-paragraph'>Vemos el diagrama de dependencias en este momento:</p>
-<p class='article-paragraph'><img src="./images/dip-2.png" alt="Diagrama clases no acompladas" /></p>
+<p class='article-paragraph'><img class='article-img' src="./images/dip-2.png" alt="Diagrama clases no acompladas" /></p>
 <p class='article-paragraph'>La dependencia directa ahora es con la interfaz que representa nuestro contrato y no con la implementación concreta. Por lo que podríamos tener N implementaciones de repositorios de usuario y cambiarlas en la factoría de la clase UserSignUpCase sin ningún coste y sin romper nada.</p>
-<p class='article-paragraph'><img src="./images/dip-3.png" alt="Diagrama clases no acompladas" /></p>
+<p class='article-paragraph'><img class='article-img' src="./images/dip-3.png" alt="Diagrama clases no acompladas" /></p>
 <p class='article-paragraph'>Con estos simples pasos hemos pasado de un código altamente acoplado y con poca testablidad a un código fácil de cambiar y complementamente testable.</p>
 <p class='article-paragraph'>Si te ha gustado el articulo o tienes alguna recomendación que te gustaría compartir conmigo puedes encontrarme en twitter, el feedback siempre es bienvenido.</p>
 <p class='article-paragraph'>Gracias por leer, un saludo.</p>
